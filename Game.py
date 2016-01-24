@@ -7,21 +7,22 @@ from Player import Player
 class GameState:
     NOT_STARTED = 1
     ASKING_WHOS_PLAYING = 2
+    GAME_STARTED = 3
 
 
 class Game:
-    board = None
-    players = []
-    playing_player = None
-    output_channel = None
-    busy = False
-
     def __init__(self):
         self.game_state = GameState.NOT_STARTED
 
         self.commands = {"StartGame": self.start_game,
                          "IPlay": self.register_player,
                          "Roll": self.roll}
+        self.board = None
+        self.players = []
+        self.playing_player = None
+        self.output_channel = None
+        self.busy = False
+
 
     """
     Commands format : "nickname: arg1 arg2 argn"
@@ -44,8 +45,22 @@ class Game:
         self.busy = False
 
     def start_game(self, caller, args):
-        self.output_message(Text.START_GAME)
-        self.game_state = GameState.ASKING_WHOS_PLAYING
+        if self.game_state == GameState.NOT_STARTED:
+            self.output_message(Text.START_GAME)
+            self.game_state = GameState.ASKING_WHOS_PLAYING
+            return
+
+        if self.game_state == GameState.ASKING_WHOS_PLAYING:
+            if len(self.players) == 0:
+                self.output_message(Text.GAME_CANT_START_WITHOUT_PLAYER)
+                return
+
+            self.output_message(Text.END_OF_REGISTRATION + ", ".join([p.nickname for p in self.players]))
+            self.output_message(Text.GAME_STARTING)
+            self.game_state = GameState.GAME_STARTED
+
+            self.playing_player = self.players[0]
+            self.output_message(Text.IT_IS_SOMEONES_TURN.replace("&1", self.playing_player.nickname))
 
     def extract_command_nickname(self, command):
         return command.split(": ")[0]
