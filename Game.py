@@ -3,6 +3,9 @@ __author__ = "Simon"
 
 from Text import Text
 from Player import Player
+import random
+
+random.seed()
 
 class GameState:
     NOT_STARTED = 1
@@ -83,8 +86,15 @@ class Game:
 
         self.players.append(Player(caller))
 
-    def roll(self):
-        self.output_message("rolling")
+    def roll(self, caller, args):
+        if caller != self.playing_player.nickname:
+            return
+
+        roll_score = random.randint(1, 12)
+        self.playing_player.position += roll_score
+        
+        self.output_message(Text.ROLL_RESULT.replace("&1", self.playing_player.nickname).replace("&2", repr(roll_score)))
+        self.output_message(Text.NEW_POSITION.replace("&1", self.playing_player.nickname).replace("&2", repr(self.playing_player.position)))
 
     def output_message(self, message):
         if(self.output_channel != None):

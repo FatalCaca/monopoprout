@@ -5,13 +5,11 @@ import unittest
 from Game import Game, GameState
 from Text import Text
 from Command import Command
+from C import C
+import re
 
 
 class GameTest(unittest.TestCase):
-    message_received = ""
-    message_received_history = []
-    game = None
-
     def setUp(self):
         self.message_received = None
         self.game = Game()
@@ -38,6 +36,11 @@ class GameTest(unittest.TestCase):
         args = self.game.extract_command_args("bro: pouet lol fuck")
         
         self.assertEqual(args, ["lol", "fuck"])
+
+    def test_extract_command_args_with_no_args(self):
+        args = self.game.extract_command_args("bro: pouet")
+        
+        self.assertEqual(args, [])
 
     def test_extract_command_name(self):
         command_name = self.game.extract_command_name("bro: pouet lol fuck")
@@ -83,5 +86,36 @@ class GameTest(unittest.TestCase):
 
         self.assertEqual(Text.GAME_CANT_START_WITHOUT_PLAYER, self.message_received, "A message saying that the game can't start without player should be displayed")
 
+    def test_roll_dice_not_your_turn(self):
+        self.test_register_players()
 
+        if not self.game.players:
+            self.fail("There are no player registered")
 
+        player = next(p for p in self.game.players if p != self.game.playing_player)
+
+        self.message_received_history = []
+        C(Command.ROLL).as_caller(player.nickname).send(self.game)
+
+        self.assertTrue(not self.message_received_history, "Nothing should happen if you try to roll while it's not your turn")
+
+    def test_roll(self):
+        self.test_register_players()
+
+        if not self.game.players:
+            self.fail("There are no player registered") 
+
+        player = self.game.playing_player
+        origin_position = player.position
+
+        C(Command.ROLL).as_caller(player.nickname).send(self.game)
+
+        self.assertTrue(self.message_received_history[-2].startswith(Text.ROLL_RESULT.split("&2")[0].replace("&1", player.nickname)),
+            "A message stating that someone has rolled the dice (with result) should be displayed")
+
+        roll_score = int(re.search("\d+", self.message_received_history[-2]).group(0))
+        new_expected_position = origin_position + roll_score
+
+        self.assertEqual(self.message_received_history[-1],
+                         Text.NEW_POSITION.replace("&1", player.nickname).replace("&2", repr(new_expected_position)),
+                         "A message with the new position should be shown")
