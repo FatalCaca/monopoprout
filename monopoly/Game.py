@@ -1,8 +1,9 @@
 __author__ = 'Simon'
 
 
-from Text import Text
-from Player import Player
+from monopoly.Text import Text
+from monopoly.Player import Player
+
 import random
 
 random.seed()
