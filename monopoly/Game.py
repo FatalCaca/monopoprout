@@ -1,4 +1,4 @@
-__author__ = "Simon"
+__author__ = 'Simon'
 
 
 from Text import Text
@@ -91,8 +91,12 @@ class Game:
             return
 
         roll_score = random.randint(1, 12)
-        self.playing_player.position += roll_score
-        
+        self.playing_player.position += roll_score  
+
+
+
+
+
         self.output_message(Text.ROLL_RESULT.replace("&1", self.playing_player.nickname).replace("&2", repr(roll_score)))
         self.output_message(Text.NEW_POSITION.replace("&1", self.playing_player.nickname).replace("&2", repr(self.playing_player.position)))
 
