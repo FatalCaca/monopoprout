@@ -3,6 +3,8 @@ __author__ = 'Simon'
 
 from monopoly.Text import Text
 from monopoly.Player import Player
+from monopoly.Board import Board
+import monopoly.Cell as Cell
 
 import random
 
@@ -15,17 +17,21 @@ class GameState:
 
 
 class Game:
+    MAX_PLAYER = 8
+    SALARY = 200
+
     def __init__(self):
         self.game_state = GameState.NOT_STARTED
 
         self.commands = {"StartGame": self.start_game,
                          "IPlay": self.register_player,
                          "Roll": self.roll}
-        self.board = None
+        self.board = Board()
         self.players = []
         self.playing_player = None
         self.output_channel = None
         self.busy = False
+        self.cells = [None for a in range(36)]
 
 
     """
@@ -82,7 +88,11 @@ class Game:
         return command.split(": ")[1].split(" ")[0]
 
     def register_player(self, caller, args):
-        if len([p for p in self.players if p.nickname == caller]) > 0:
+        if len(self.players) >= Game.MAX_PLAYER:
+            self.output_message(Text.TOO_MUCH_PLAYER_REGISTERED)
+            return
+
+        if [p for p in self.players if p.nickname == caller]:
             return
 
         self.players.append(Player(caller))
@@ -94,9 +104,8 @@ class Game:
         roll_score = random.randint(1, 12)
         self.playing_player.position += roll_score  
 
-
-
-
+        if self.playing_player.position > len(self.cells):
+            self.playing_player.position -= len(self.cells)
 
         self.output_message(Text.ROLL_RESULT.replace("&1", self.playing_player.nickname).replace("&2", repr(roll_score)))
         self.output_message(Text.NEW_POSITION.replace("&1", self.playing_player.nickname).replace("&2", repr(self.playing_player.position)))
@@ -106,3 +115,37 @@ class Game:
             self.output_channel(message)
         else:
             print(message)
+
+    def give_money_to_player(self, player, amount, reason):
+        player.money += amount
+
+        if amount > 0:
+            self.output_message(Text.RECEIVES_MONEY.replace('&1', player.nickname)
+                                                   .replace('&2', repr(amount))
+                                                   .replace('&3', reason))
+
+        if amount < 0:
+            self.output_message(Text.LOSES_MONEY.replace('&1', player.nickname)
+                                                .replace('&2', repr(amount))
+                                                .replace('&3', reason))
+
+    def forward_player(self, player, amount):
+        if self.playing_player != player or amount == 0:
+            return
+
+        player.position += amount
+        if player.position >= len(self.board.cells):
+            player.position -= len(self.board.cells)
+            self.give_money_to_player(player, Game.SALARY, Text.SALARY)
+
+        self.arrival_at_cell(player)
+
+    def arrival_at_cell(self, player):
+        cell = self.board.cells[player.position - 1]
+
+        self.output_message(Text.ARRIVAL_AT_CELL.replace('&1', repr(player))
+                                                .replace('&2', repr(player.position))
+                                                .replace('&3', str(cell)))
+
+        if isinstance(cell, Cell.MoneyCell):
+            self.give_money_to_player(player, cell.money_amount, str(cell))
