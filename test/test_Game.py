@@ -1,13 +1,16 @@
 __author__ = "Simon"
 
 
+import test_helper
+import monopoly.Cell as Cell
 from monopoly.Game import Game
 from monopoly.Command import Command
 from monopoly.Text import Text
 from monopoly.Game import GameState
+
 import pytest
 import re
-import test_helper
+from pprint import pprint
 
 get_roll_score_from_message = test_helper.get_roll_score_from_message
 
@@ -73,10 +76,14 @@ def test_register_players(game):
 
     Command.REGISTER_PLAYER.as_caller("broski").send(game)
     Command.REGISTER_PLAYER.as_caller("coincoin").send(game)
+    Command.REGISTER_PLAYER.as_caller("GrosPoil").send(game)
+    Command.REGISTER_PLAYER.as_caller("Salami").send(game)
 
-    assert 2 == len(game.players)
+    assert 4 == len(game.players)
     assert 1 == len([p for p in game.players if p.nickname == "coincoin"])
     assert 1 == len([p for p in game.players if p.nickname == "broski"])
+    assert 1 == len([p for p in game.players if p.nickname == "GrosPoil"])
+    assert 1 == len([p for p in game.players if p.nickname == "Salami"])
 
     Command.START_GAME.as_caller('hurr').send(game)
 
@@ -155,18 +162,18 @@ def test_roll_at_end_of_board(game):
     test_register_players(game)
 
     player = game.playing_player
-    player.position = 36
+    player.position = 40
     Command.ROLL.as_caller(player).send(game)
 
     assert player.position == get_roll_score_from_message(message_received_history[-2])
 
-    player.position = 35
+    player.position = 39
     Command.ROLL.as_caller(player).send(game)
     roll_score = get_roll_score_from_message(message_received_history[-2])
     Command.ROLL.as_caller(player).send(game)
     roll_score += get_roll_score_from_message(message_received_history[-2])
 
-    assert player.position == 35 + roll_score - len(game.cells)
+    assert player.position == 39 + roll_score - len(game.board.cells)
 
 def test_give_money_to_player(game):
     test_register_players(game)
@@ -218,3 +225,68 @@ def test_free_parking_cell(registered_game):
 
     assert Text.FREE_PARKING_FOR.replace('&1', str(player)) in message_received
     assert player.money == 10 + 5000
+
+    registered_game.forward_player(player, -2)
+    registered_game.forward_player(player, 2)
+
+    assert message_received == Text.BUT_FREE_PARKING_EMPTY
+    assert player.money == 10 + 5000
+
+def test_buy_estate_not_the_one_playing(registered_game):
+    player = registered_game.players[-1]
+
+    message_received = ''
+    Command.BUY_ESTATE.as_caller(player).send(registered_game)
+    assert message_received == ''
+
+def test_buy_estate_not_enough_money(registered_game):
+    player = registered_game.playing_player
+
+    player.money = 0
+    player.position = 2
+    Command.BUY_ESTATE.as_caller(player).send(registered_game)
+    assert message_received == Text.NOT_ENOUGH_MONEY_TO_BUY_ESTATE
+    assert player.money == 0
+
+def test_buy_estate_not_estate_cell(registered_game):
+    global message_received
+    player = registered_game.playing_player
+
+    player.position = 1
+    Command.BUY_ESTATE.as_caller(player).send(registered_game)
+    assert message_received == Text.IS_NOT_ESTATE_CELL
+
+    message_received = ''
+    player.position = 3
+    Command.BUY_ESTATE.as_caller(player).send(registered_game)
+    assert message_received == Text.IS_NOT_ESTATE_CELL
+
+    message_received = ''
+    player.position = 11
+    Command.BUY_ESTATE.as_caller(player).send(registered_game)
+    assert message_received == Text.IS_NOT_ESTATE_CELL
+
+def test_buy_estate_already_owned(registered_game):
+    player = registered_game.playing_player
+    owner = registered_game.players[-1]
+    registered_game.board.cells[3].estate.owner = owner
+
+    player.position = 4
+    Command.BUY_ESTATE.as_caller(player).send(registered_game)
+
+    assert registered_game.board.cells[3].estate.owner == owner
+    assert message_received == Text.ALREADY_OWNED_BY.replace('&1', str(owner))
+
+def test_buy_estate(registered_game):
+    player = registered_game.playing_player
+
+    player.position = 4
+    player.money = 1000
+    Command.BUY_ESTATE.as_caller(player).send(registered_game)
+
+    estate_bought = registered_game.board.cells[3].estate
+    assert message_received == (Text.SOMEONE_BUYS_ESTATE.replace('&1', str(player))
+                                                        .replace('&2', str(estate_bought))
+                                                        .replace('&3', repr(estate_bought.sell_price))
+                                                        .replace('&4', repr(player.money)))
+    assert estate_bought.owner == player

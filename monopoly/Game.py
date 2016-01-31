@@ -7,6 +7,7 @@ from monopoly.Board import Board
 import monopoly.Cell as Cell
 
 import random
+from pprint import pprint
 
 random.seed()
 
@@ -23,15 +24,17 @@ class Game:
     def __init__(self):
         self.game_state = GameState.NOT_STARTED
 
-        self.commands = {"StartGame": self.start_game,
+        self.command_bindings = {
+                         "StartGame": self.start_game,
                          "IPlay": self.register_player,
-                         "Roll": self.roll}
+                         "Roll": self.roll,
+                         "Buy": self.buy_estate,
+                         }
         self.board = Board()
         self.players = []
         self.playing_player = None
         self.output_channel = None
         self.busy = False
-        self.cells = [None for a in range(36)]
 
 
     """
@@ -50,9 +53,40 @@ class Game:
         if caller == None or command_name == None:
             return
 
-        self.commands[command_name](caller, args)
+        self.command_bindings[command_name](caller, args)
 
         self.busy = False
+
+    def get_current_cell(self):
+        try:
+            return self.board.cells[self.playing_player.position - 1]
+        except IndexError:
+            return None
+
+    def buy_estate(self, caller, args):
+        if self.playing_player.nickname != caller:
+            return
+
+        cell = self.get_current_cell()
+
+        if not isinstance(cell, Cell.EstateCell):
+            self.output_message(Text.IS_NOT_ESTATE_CELL)
+            return
+
+        if cell.estate.owner:
+            self.output_message(Text.ALREADY_OWNED_BY.replace('&1', str(cell.estate.owner)))
+            return            
+
+        if self.playing_player.money < cell.estate.sell_price:
+            self.output_message(Text.NOT_ENOUGH_MONEY_TO_BUY_ESTATE)
+            return
+
+        cell.estate.owner = self.playing_player
+        self.playing_player.money -= cell.estate.sell_price
+        self.output_message(Text.SOMEONE_BUYS_ESTATE.replace('&1', str(self.playing_player))
+                                                    .replace('&2', str(cell.estate))
+                                                    .replace('&3', repr(cell.estate.sell_price))
+                                                    .replace('&4', repr(self.playing_player.money)))
 
     def start_game(self, caller, args):
         if self.game_state == GameState.NOT_STARTED:
@@ -104,8 +138,8 @@ class Game:
         roll_score = random.randint(1, 12)
         self.playing_player.position += roll_score  
 
-        if self.playing_player.position > len(self.cells):
-            self.playing_player.position -= len(self.cells)
+        if self.playing_player.position > len(self.board.cells):
+            self.playing_player.position -= len(self.board.cells)
 
         self.output_message(Text.ROLL_RESULT.replace("&1", self.playing_player.nickname).replace("&2", repr(roll_score)))
         self.output_message(Text.NEW_POSITION.replace("&1", self.playing_player.nickname).replace("&2", repr(self.playing_player.position)))
@@ -120,14 +154,14 @@ class Game:
         player.money += amount
 
         if amount > 0:
-            self.output_message(Text.RECEIVES_MONEY.replace('&1', player.nickname)
-                                                   .replace('&2', repr(amount))
-                                                   .replace('&3', reason))
-
+            message = Text.RECEIVES_MONEY
         if amount < 0:
-            self.output_message(Text.LOSES_MONEY.replace('&1', player.nickname)
-                                                .replace('&2', repr(amount))
-                                                .replace('&3', reason))
+            message = Text.LOSES_MONEY
+
+        self.output_message(message.replace('&1', player.nickname)
+                                   .replace('&2', repr(amount))
+                                   .replace('&3', reason)
+                                   .replace('&4', repr(player.money)))
 
     def forward_player(self, player, amount):
         if self.playing_player != player or amount == 0:
@@ -148,8 +182,11 @@ class Game:
                                                 .replace('&3', str(cell)))
 
         if isinstance(cell, Cell.FreeParkingCell):
-            self.give_money_to_player(player, self.board.bank_money, Text.FREE_PARKING_FOR.replace('&1', str(player)))
-            self.board.bank_money = 0
+            if self.board.bank_money == 0:
+                self.output_message(Text.BUT_FREE_PARKING_EMPTY)
+            else:
+                self.give_money_to_player(player, self.board.bank_money, Text.FREE_PARKING_FOR.replace('&1', str(player)))
+                self.board.bank_money = 0
 
         if isinstance(cell, Cell.MoneyCell):
             self.give_money_to_player(player, cell.money_amount, str(cell))

@@ -19,6 +19,7 @@ class Text:
     AT_LEVEL = '[Upgrade &1]'
     AT = 'à'
     RENT_AT = '[Loyer à &1]'
+    SOMEONE_BUYS_ESTATE = '&1 achète &2 pour &3 ! (reste &4)'
 
     ARRIVAL_AT_CELL = '&1 arrive à la case &2 (&3)'
 
@@ -29,3 +30,9 @@ class Text:
     JAIL_CELL = "Case prison"
     GO_TO_JAIL_CELL = "Case 'vas en prison connard'"
     FREE_PARKING_FOR = "Maxiloot pour &1 !"
+    BUT_FREE_PARKING_EMPTY = "Malheureusemtn c'est vide pd"
+
+    # Actions
+    NOT_ENOUGH_MONEY_TO_BUY_ESTATE = "Pas assez d'argent pour acheter !"
+    IS_NOT_ESTATE_CELL = "Ce n'est pas une case achetable lole"
+    ALREADY_OWNED_BY = "Cette propriété est déjà possédée par &1 !"

@@ -1,5 +1,7 @@
 __author__ = 'Simon'
 
+from monopoly.Text import Text
+
 
 class Estate:
     def __init__(self, **kwds):
@@ -15,6 +17,12 @@ class Estate:
 
     def get_current_rent(self):
         return self.rents[self.upgrade_level]
+
+    def __str__(self):
+        return ' '.join((self.name, Text.AT, self.city))
+
+    def get_full_description(self):
+        return ' '.join((self.name, Text.AT, self.city, '[lvl', self.upgrade_level, 'rent', repr(self.get_current_rent))) + ']'
 
 
 class StationEstate:

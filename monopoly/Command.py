@@ -7,6 +7,7 @@ commands = {
     'START_GAME': "StartGame",
     'REGISTER_PLAYER': "IPlay",
     'ROLL': "Roll",
+    'BUY_ESTATE': 'Buy'
     }
 
 
