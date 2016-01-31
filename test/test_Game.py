@@ -207,3 +207,14 @@ def test_double_salary_when_landing_on_start_cell(registered_game):
     Command.ROLL.as_caller(player).send(registered_game)
 
     assert player.money == 300 + Game.SALARY * 2
+
+def test_free_parking_cell(registered_game):
+    player = registered_game.playing_player
+
+    player.position = 11
+    player.money = 10
+    registered_game.board.bank_money = 5000
+    registered_game.forward_player(player, 10)
+
+    assert Text.FREE_PARKING_FOR.replace('&1', str(player)) in message_received
+    assert player.money == 10 + 5000

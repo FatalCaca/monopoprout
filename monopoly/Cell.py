@@ -10,6 +10,9 @@ class MoneyCell:
         self.text = text
         self.money_amount = money_amount
 
+    def __str__(self):
+        return self.text
+
 
 class LuckCell:
     def __str__(self):

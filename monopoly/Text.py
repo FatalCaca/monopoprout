@@ -28,3 +28,4 @@ class Text:
     FREE_PARKING_CELL = "Case maxiloot"
     JAIL_CELL = "Case prison"
     GO_TO_JAIL_CELL = "Case 'vas en prison connard'"
+    FREE_PARKING_FOR = "Maxiloot pour &1 !"

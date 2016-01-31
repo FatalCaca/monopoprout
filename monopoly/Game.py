@@ -143,9 +143,14 @@ class Game:
     def arrival_at_cell(self, player):
         cell = self.board.cells[player.position - 1]
 
-        self.output_message(Text.ARRIVAL_AT_CELL.replace('&1', repr(player))
+        self.output_message(Text.ARRIVAL_AT_CELL.replace('&1', str(player))
                                                 .replace('&2', repr(player.position))
                                                 .replace('&3', str(cell)))
 
+        if isinstance(cell, Cell.FreeParkingCell):
+            self.give_money_to_player(player, self.board.bank_money, Text.FREE_PARKING_FOR.replace('&1', str(player)))
+            self.board.bank_money = 0
+
         if isinstance(cell, Cell.MoneyCell):
             self.give_money_to_player(player, cell.money_amount, str(cell))
+
