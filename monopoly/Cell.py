@@ -4,42 +4,59 @@ from monopoly.Estate import EstateFactory
 from monopoly.Text import Text
 
 
+class Cell:
+    ask_board_for_index = None
 
-class MoneyCell:
+    def  __str__(self):
+        return self.__class__.__name__
+
+    def get_selection_infos(self):
+        return str(self)
+
+    def get_full_description(self):
+        return str(self)
+
+    def get_index_in_board(self):
+        if self.ask_board_for_index != None and hasattr(self.ask_board_for_index, '__call__'):
+            return self.ask_board_for_index(self)
+
+
+class MoneyCell(Cell):
     def __init__(self, text, money_amount):
         self.text = text
         self.money_amount = money_amount
+        super()
 
     def __str__(self):
-        return self.text
+        return self.text + ' ' + Text.COSTS.replace('&1', repr(self.money_amount))
 
 
-class LuckCell:
+class LuckCell(Cell):
     def __str__(self):
         return Text.LUCK_CELL
 
 
-class CommunityChestCell:
+class CommunityChestCell(Cell):
     def __str__(self):
         return Text.COMMUNITY_CHEST_CELL
 
 
-class FreeParkingCell:
+class FreeParkingCell(Cell):
     def __str__(self):
         return Text.FREE_PARKING_CELL
 
 
-class JailCell:
+class JailCell(Cell):
     def __str__(self):
         return Text.JAIL_CELL
 
 
-class GoToJailCell:
+class GoToJailCell(Cell):
     def __str__(self):
         return Text.GO_TO_JAIL_CELL
 
 
-class EstateCell:
+class EstateCell(Cell):
     def __init__(self, estate):
         self.estate = estate
 
@@ -47,9 +64,16 @@ class EstateCell:
         return ' '.join((self.estate.name,
                          Text.AT,
                          self.estate.city,
-                         Text.OWNED_BY.replace('&1', self.estate.owner) if self.estate.owner != None else '',
+                         '[' + repr(self.get_index_in_board()) + ']',
+                         Text.AT_LEVEL.replace('&1', repr(self.estate.upgrade_level))))
+
+    def get_full_description(self):
+        return ' '.join((self.estate.name,
+                         Text.AT,
+                         self.estate.city,
+                         Text.OWNED_BY.replace('&1', str(self.estate.owner)) if self.estate.owner != None else '',
                          Text.AT_LEVEL.replace('&1', repr(self.estate.upgrade_level)),
-                         Text.RENT_AT.replace('&1', repr(self.estate.get_current_rent()))))
+                         Text.RENT_AT.replace('&1', repr(self.estate.get_current_rent()))))        
 
 
 class CellFactory:
@@ -57,7 +81,7 @@ class CellFactory:
         estates = EstateFactory.get_default_estates()
 
         return [
-            MoneyCell('Case départ', 200),
+            MoneyCell('Case depart', 200),
             EstateCell(estates.pop(0)),
             CommunityChestCell(),
             EstateCell(estates.pop(0)),

@@ -1,3 +1,4 @@
 Monopoly.py
 MonopolyTester.py
 */**/*.pyc
+.cache

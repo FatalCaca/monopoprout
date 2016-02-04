@@ -7,7 +7,9 @@ commands = {
     'START_GAME': "StartGame",
     'REGISTER_PLAYER': "IPlay",
     'ROLL': "Roll",
-    'BUY_ESTATE': 'Buy'
+    'BUY_ESTATE': 'Buy',
+    'SELECT_CELL': 'Select',
+    'UPGRADE_ESTATE': 'Upgrade',
     }
 
 
@@ -26,13 +28,23 @@ class Command:
             return self
 
     def with_args(self, args):
-        self.args = args
+        if isinstance(args, list):
+            self.args = args
+            return self
+        
+        if isinstance(args, str):
+            self.args.append(args)
+            return self
+
+        self.args.append(repr(args))
         return self
 
     def send(self, game):
         if self.command_name:
             game.send_command(self.caller + ": " + self.command_name + " " + " ".join(self.args))
 
+def constructor_factory(command_string):
+    return lambda: Command(command_string)
+
 for command_name, command_string in commands.items():
-    setattr(Command, command_name, Command(command_string))
-    
+    setattr(Command, command_name, constructor_factory(command_string))

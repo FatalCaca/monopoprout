@@ -17,11 +17,11 @@ class LuckCard:
 class LuckCardFactory:
     def get_default_luck_cards():
         cards = [
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
         ]
 
         jail_card = LuckCard("prout")
@@ -30,11 +30,11 @@ class LuckCardFactory:
 
     def get_default_community_chest_cards():
         cards = [
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
-            LuckCard("Kevin vous invite pour un kébab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
+            LuckCard("Kevin vous invite pour un kebab ! RDV au kebZ de St Berth (36)", new_position=36),
         ]
 
         jail_card = LuckCard("prout")

@@ -41,3 +41,9 @@ def test_deck_renew(board):
     renewed_draw = board.draw_community_chest_card()
     assert renewed_draw
     assert board.community_chest_deck
+
+def test_get_index_in_board(board):
+    assert board.cells[10].get_index_in_board() == 10
+    assert board.cells[0].get_index_in_board() == 0
+    assert board.cells[20].get_index_in_board() == 20
+    assert board.cells[39].get_index_in_board() == 39

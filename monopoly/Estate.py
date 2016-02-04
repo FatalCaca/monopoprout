@@ -24,6 +24,8 @@ class Estate:
     def get_full_description(self):
         return ' '.join((self.name, Text.AT, self.city, '[lvl', self.upgrade_level, 'rent', repr(self.get_current_rent))) + ']'
 
+    def get_name_and_level(self):
+        return str(self) + '[' + repr(self.upgrade_level) + ']'
 
 class StationEstate:
     def __init__(self, **kwds):
@@ -47,7 +49,7 @@ class EstateFactory:
     def get_default_estates():
         return [
         Estate(city='Laignelet',
-               name='Station d\'épuration',
+               name='Station d\'epuration',
                rents=[2, 10, 30, 90, 160, 250],
                sell_price=60,
                upgrade_price=50,
@@ -70,7 +72,7 @@ class EstateFactory:
                upgrade_price=50,
                mortgage_price=50),
         Estate(city='Laval',
-               name='L\'arabe à coté de la gare',
+               name='L\'arabe a cote de la gare',
                rents=[6, 30, 90, 270, 400, 550],
                sell_price=100,
                upgrade_price=50,
@@ -83,7 +85,7 @@ class EstateFactory:
                mortgage_price=60),
 
 
-        Estate(city='Laval',
+        Estate(city='Fougeres',
                name='Le Quick',
                rents=[10, 50, 150, 450, 625, 750],
                sell_price=140,
@@ -92,13 +94,13 @@ class EstateFactory:
 
         DiceEstate(name='Eboueurs Bibi'),
 
-        Estate(city='Laval',
-               name='L\'arabe à coté de la gare',
+        Estate(city='Fougeres',
+               name='L\'arabe a cote de la gare',
                rents=[10, 50, 150, 450, 625, 750],
                sell_price=140,
                upgrade_price=100,
                mortgage_price=70),
-        Estate(city='Laval',
+        Estate(city='Fougeres',
                name='La pute sur la route de Loiron',
                rents=[12, 60, 180, 500, 700, 900],
                sell_price=160,
@@ -109,19 +111,19 @@ class EstateFactory:
         StationEstate(name='Gare Prout'),
 
 
-        Estate(city='Laval',
+        Estate(city='Rennes',
                name='Le Quick',
                rents=[14, 70, 200, 550, 750, 950],
                sell_price=180,
                upgrade_price=100,
                mortgage_price=90),
-        Estate(city='Laval',
-               name='L\'arabe à coté de la gare',
+        Estate(city='Rennes',
+               name='L\'arabe a cote de la gare',
                rents=[14, 70, 200, 550, 750, 950],
                sell_price=180,
                upgrade_price=100,
                mortgage_price=90),
-        Estate(city='Laval',
+        Estate(city='Rennes',
                name='La pute sur la route de Loiron',
                rents=[12, 60, 180, 500, 700, 900],
                sell_price=200,
@@ -129,19 +131,19 @@ class EstateFactory:
                mortgage_price=100),
 
 
-        Estate(city='Laval',
+        Estate(city='Moncul',
                name='Le Quick',
                rents=[18, 90, 250, 700, 875, 1050],
                sell_price=220,
                upgrade_price=150,
                mortgage_price=110),
-        Estate(city='Laval',
-               name='L\'arabe à coté de la gare',
+        Estate(city='Moncul',
+               name='L\'arabe a cote de la gare',
                rents=[18, 90, 250, 700, 875, 1050],
                sell_price=220,
                upgrade_price=150,
                mortgage_price=110),
-        Estate(city='Laval',
+        Estate(city='Moncul',
                name='La pute sur la route de Loiron',
                rents=[20, 100, 300, 750, 925, 1100],
                sell_price=240,
@@ -152,14 +154,14 @@ class EstateFactory:
         StationEstate(name='Gare Anus'),
 
 
-        Estate(city='Laval',
+        Estate(city='Chibroland',
                name='Le Quick',
                rents=[22, 110, 330, 800, 975, 1150],
                sell_price=260,
                upgrade_price=150,
                mortgage_price=130),
-        Estate(city='Laval',
-               name='L\'arabe à coté de la gare',
+        Estate(city='Chibroland',
+               name='L\'arabe a cote de la gare',
                rents=[22, 110, 330, 800, 975, 1150],
                sell_price=260,
                upgrade_price=150,
@@ -167,7 +169,7 @@ class EstateFactory:
 
         DiceEstate(name='Fosses Septiques Cacatron'),
 
-        Estate(city='Laval',
+        Estate(city='Chibroland',
                name='La pute sur la route de Loiron',
                rents=[24, 120, 360, 850, 1025, 1200],
                sell_price=280,
@@ -175,19 +177,19 @@ class EstateFactory:
                mortgage_price=150),
 
 
-        Estate(city='Laval',
+        Estate(city='Paris',
                name='Le Quick',
                rents=[26, 130, 390, 900, 1100, 1275],
                sell_price=100,
                upgrade_price=300,
                mortgage_price=150),
-        Estate(city='Laval',
-               name='L\'arabe à coté de la gare',
+        Estate(city='Paris',
+               name='L\'arabe a cote de la gare',
                rents=[26, 130, 390, 900, 1100, 1275],
                sell_price=100,
                upgrade_price=300,
                mortgage_price=150),
-        Estate(city='Laval',
+        Estate(city='Paris',
                name='La pute sur la route de Loiron',
                rents=[28, 150, 450, 1000, 1200, 1400],
                sell_price=100,
@@ -198,14 +200,14 @@ class EstateFactory:
         StationEstate(name='Gare Fion'),
 
 
-        Estate(city='Laval',
-               name='Le Quick',
+        Estate(city='St Berthevin',
+               name='Univers Noz',
                rents=[35, 175, 500, 1100, 1300, 1500],
                sell_price=350,
                upgrade_price=200,
                mortgage_price=175),
-        Estate(city='Laval',
-               name='L\'arabe à coté de la gare',
+        Estate(city='St Berthevin',
+               name='Le kebab',
                rents=[50, 200, 600, 1400, 1700, 2000],
                sell_price=400,
                upgrade_price=200,

@@ -2,15 +2,21 @@ __author__ = 'Simon'
 
 from random import shuffle
 from monopoly.LuckCard import LuckCardFactory
-from monopoly.Cell import CellFactory
+from monopoly.Cell import CellFactory, Cell
 
 
 class Board:
     def __init__(self):
         self.bank_money = 0
         self.cells = CellFactory.get_default_cells()
+        Cell.ask_board_for_index = self.get_cell_index
         self._renew_luck_card_deck()
         self._renew_community_chest_deck()
+        self.houses_available = 50
+        self.hotels_available = 10
+
+    def get_cell_index(self, cell):
+        return self.cells.index(cell)
 
     def draw_luck_card(self):
         if not self.luck_cards_deck:
