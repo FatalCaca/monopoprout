@@ -49,3 +49,4 @@ class Text:
     ESTATE_TOO_HIGH_LEVEL_COMPARED_TO_GROUP = "Cette propriete a un niveau trop eleve par rapport au reste du groupe"
     NOT_ENOUGH_MONEY = "Pas assez d'argent (il faut &1, vous avez &2)"
     PLAYER_UPGRADES_ESTATE = "&1 upgrade &2 au niveau &3 !"
+    SOMEONE_GOES_IN_PRISON = "&1 tombe à la case prison ! Bye bye PD"

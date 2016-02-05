@@ -1,4 +1,5 @@
-__author__ = 'Simon'
+
+__author__ = 'simon.ballu@gmail.com'
 
 
 from monopoly.Estate import EstateFactory, Estate, StationEstate, DiceEstate

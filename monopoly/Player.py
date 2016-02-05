@@ -2,7 +2,8 @@ class Player:
     def __init__(self, nickname):
         self.position = 1
         self.nickname = nickname
-        self.has_jail_card = False
+        self.jail_cards = 0
+        self.is_in_jail = False
         self.money = 0
         self.selected_cell = None
 

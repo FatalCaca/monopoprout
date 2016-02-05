@@ -1,4 +1,4 @@
-__author__ = 'Simon'
+__author__ = 'simon.ballu@gmail.com'
 
 
 from monopoly.Text import Text
@@ -8,6 +8,7 @@ import monopoly.Cell as Cell
 
 import random
 from pprint import pprint
+from monopoly.helper import resolve_text
 
 random.seed()
 
@@ -332,4 +333,9 @@ class Game:
                                                   estate.get_current_rent(),
                                                   estate.owner,
                                                   Text.RENT_FOR.replace('&1', estate.get_name_and_level()))
- 
+
+        if isinstance(cell, Cell.GoToJailCell):
+            prison_cell = next(c for c in self.board.cells if isinstance(c, Cell.JailCell))
+            self.output_message(resolve_text(Text.SOMEONE_GOES_IN_PRISON, str(player)))
+            player.position = self.board.cells.index(prison_cell) + 1
+            player.is_in_jail = True

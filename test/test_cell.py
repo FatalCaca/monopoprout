@@ -1,4 +1,4 @@
-__author__ = 'Simon'
+__author__ = 'simon.ballu@gmail.com'
 
 
 from monopoly.Cell import CellFactory

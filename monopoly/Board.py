@@ -1,4 +1,4 @@
-__author__ = 'Simon'
+__author__ = 'simon.ballu@gmail.com'
 
 from random import shuffle
 from monopoly.LuckCard import LuckCardFactory

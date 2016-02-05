@@ -511,8 +511,42 @@ def test_upgrade_estate(registered_game_owner):
 
     Command.SELECT_CELL().as_caller(player).with_args(10).send(game)
     Command.UPGRADE_ESTATE().as_caller(player).send(game)
-    print(private_message_received[1])
+
     assert message_received == (Text.PLAYER_UPGRADES_ESTATE.replace('&1', player.nickname)
                                                            .replace('&2', str(estate))
-                                                           .replace('&3', repr(estate.upgrade_level)))
+                                                           .replace('&3', repr(1)))
     assert estate.upgrade_level == 1
+
+
+    clear_messages_received()
+
+    game.board.cells[16].estate.owner = player
+    game.board.cells[16].estate.upgrade_level = 2
+    game.board.cells[18].estate.owner = player
+    game.board.cells[18].estate.upgrade_level = 2
+    game.board.cells[19].estate.owner = player
+    game.board.cells[19].estate.upgrade_level = 2
+    cell = game.board.cells[18]
+    estate = cell.estate
+    estate.owner = player
+    player.money = 1000
+
+    Command.SELECT_CELL().as_caller(player).with_args(19).send(game)
+    Command.UPGRADE_ESTATE().as_caller(player).send(game)
+
+    assert message_received == (Text.PLAYER_UPGRADES_ESTATE.replace('&1', player.nickname)
+                                                           .replace('&2', str(estate))
+                                                           .replace('&3', repr(3)))
+    assert estate.upgrade_level == 3
+
+def test_goto_jail(registered_game_owner):
+    game = registered_game_owner
+    player = game.playing_player
+    clear_messages_received()
+
+    player.position = 21
+    game.forward_player(player, 10)
+
+    assert message_received == Text.SOMEONE_GOES_IN_PRISON.replace('&1', str(player))
+    assert player.position == 11
+    assert player.is_in_jail == True
