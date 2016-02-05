@@ -65,15 +65,15 @@ class EstateCell(Cell):
                          Text.AT,
                          self.estate.city,
                          '[' + repr(self.get_index_in_board()) + ']',
-                         Text.AT_LEVEL.replace('&1', repr(self.estate.upgrade_level))))
+                         Text.AT_LEVEL % self.estate.upgrade_level))
 
     def get_full_description(self):
         return ' '.join((self.estate.name,
                          Text.AT,
                          self.estate.city,
-                         Text.OWNED_BY.replace('&1', str(self.estate.owner)) if self.estate.owner != None else '',
-                         Text.AT_LEVEL.replace('&1', repr(self.estate.upgrade_level)),
-                         Text.RENT_AT.replace('&1', repr(self.estate.get_current_rent()))))        
+                         Text.OWNED_BY % str(self.estate.owner) if self.estate.owner != None else '',
+                         Text.AT_LEVEL % self.estate.upgrade_level,
+                         Text.RENT_AT % self.estate.get_current_rent()))
 
 
 class CellFactory:

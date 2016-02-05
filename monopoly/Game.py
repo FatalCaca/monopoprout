@@ -72,13 +72,13 @@ class Game:
             return
 
         if not isinstance(player.selected_cell, Cell.EstateCell):
-            self.send_private_message(player, Text.NOT_AN_ESTATE_CELL.replace("&1", str(player.selected_cell)))
+            self.send_private_message(player, Text.NOT_AN_ESTATE_CELL % str(player.selected_cell))
             return
 
         estate = player.selected_cell.estate
 
         if estate.upgrade_level == 5:
-            self.send_private_message(player, Text.ALREADY_MAX_LEVEL.replace("&1", str(estate)))
+            self.send_private_message(player, Text.ALREADY_MAX_LEVEL % str(estate))
             return
 
         if estate.upgrade_level == 4 and self.board.hotels_available <= 0:
@@ -98,9 +98,8 @@ class Game:
                                             if e.owner != estate.owner]
 
         if estates_in_group_but_not_owned:
-            self.send_private_message(player, Text.NOT_ALL_GROUP_IS_OWNED
-                                              .replace('&1', ', '.join(
-                                                [str(e) for e in estates_in_group_but_not_owned])))
+            estates_not_owned_names = [str(e) for e in estates_in_group_but_not_owned]
+            self.send_private_message(player, Text.NOT_ALL_GROUP_IS_OWNED % ', '.join(estates_not_owned_names))
             return
 
         minimum_upgrade_level = min([e.upgrade_level for e in estates_in_same_group])
@@ -114,15 +113,10 @@ class Game:
             return
 
         estate.upgrade_level += 1
-        self.output_message(Text.PLAYER_UPGRADES_ESTATE
-                            .replace('&1', str(player))
-                            .replace('&2', str(estate))
-                            .replace('&3', repr(estate.upgrade_level)))
+        self.output_message(Text.PLAYER_UPGRADES_ESTATE % (str(player), str(estate), estate.upgrade_level))
 
     def tell_player_he_doesnt_have_enough_money(self, player, required_amount):
-        self.send_private_message(player, (Text.NOT_ENOUGH_MONEY
-                                           .replace('&1', repr(required_amount))
-                                           .replace('&2', repr(player.money))))
+        self.send_private_message(player, Text.NOT_ENOUGH_MONEY % (required_amount, player.money))
 
     def get_current_cell(self):
         """
@@ -145,7 +139,7 @@ class Game:
             return
 
         if cell.estate.owner:
-            self.output_message(Text.ALREADY_OWNED_BY.replace('&1', str(cell.estate.owner)))
+            self.output_message(Text.ALREADY_OWNED_BY % str(cell.estate.owner))
             return            
 
         if self.playing_player.money < cell.estate.sell_price:
@@ -154,10 +148,8 @@ class Game:
 
         cell.estate.owner = self.playing_player
         self.playing_player.money -= cell.estate.sell_price
-        self.output_message(Text.SOMEONE_BUYS_ESTATE.replace('&1', str(self.playing_player))
-                                                    .replace('&2', str(cell.estate))
-                                                    .replace('&3', repr(cell.estate.sell_price))
-                                                    .replace('&4', repr(self.playing_player.money)))
+        self.output_message(Text.SOMEONE_BUYS_ESTATE % (str(self.playing_player), str(cell.estate),
+                                                        cell.estate.sell_price, self.playing_player.money))
 
     def start_game_command(self, caller, args):
         if self.game_state == GameState.NOT_STARTED:
@@ -178,7 +170,7 @@ class Game:
             self.game_state = GameState.GAME_STARTED
 
             self.playing_player = self.players[0]
-            self.output_message(Text.IT_IS_SOMEONES_TURN.replace("&1", self.playing_player.nickname))
+            self.output_message(Text.IT_IS_SOMEONES_TURN % self.playing_player.nickname)
 
     def extract_command_nickname(self, command):
         return command.split(": ")[0]
@@ -215,8 +207,8 @@ class Game:
         if self.playing_player.position > len(self.board.cells):
             self.playing_player.position -= len(self.board.cells)
 
-        self.output_message(Text.ROLL_RESULT.replace("&1", self.playing_player.nickname).replace("&2", repr(roll_score)))
-        self.output_message(Text.NEW_POSITION.replace("&1", self.playing_player.nickname).replace("&2", repr(self.playing_player.position)))
+        self.output_message(Text.ROLL_RESULT % (self.playing_player.nickname, roll_score))
+        self.output_message(Text.NEW_POSITION % (self.playing_player.nickname, self.playing_player.position))
 
     def output_message(self, message):
         if(self.output_channel != None):
@@ -232,10 +224,7 @@ class Game:
         if amount < 0:
             message = Text.LOSES_MONEY
 
-        self.output_message(message.replace('&1', player.nickname)
-                                   .replace('&2', repr(amount))
-                                   .replace('&3', reason)
-                                   .replace('&4', repr(player.money)))
+        self.output_message(message % (player.nickname, amount, reason, player.money))
 
     def player_gives_money_to_player(self, player_from, amount, player_to, reason):
         if player_from == None or player_to == None or player_from == player_to or amount <= 0:
@@ -243,12 +232,9 @@ class Game:
 
         player_from.money -= amount
         player_to.money += amount
-        self.output_message(Text.PLAYER_GIVES_MONEY_TO_PLAYER.replace('&1', str(player_from))
-                                                             .replace('&2', repr(amount))
-                                                             .replace('&3', str(player_to))
-                                                             .replace('&4', reason)
-                                                             .replace('&5', repr(player_from.money))
-                                                             .replace('&6', repr(player_to.money)))
+        self.output_message(Text.PLAYER_GIVES_MONEY_TO_PLAYER % (str(player_from), amount,
+                                                                 str(player_to), reason,
+                                                                 player_from.money, player_to.money))
 
     def forward_player(self, player, amount):
         if self.playing_player != player or amount == 0:
@@ -307,20 +293,18 @@ class Game:
                 return
 
         player.selected_cell = cell
-        self.send_private_message(player, Text.CELL_SELECTED_INFOS.replace('&1', str(cell)))
+        self.send_private_message(player, Text.CELL_SELECTED_INFOS % str(cell))
 
     def arrival_at_cell(self, player):
         cell = self.get_player_cell(player)
 
-        self.output_message(Text.ARRIVAL_AT_CELL.replace('&1', str(player))
-                                                .replace('&2', repr(player.position))
-                                                .replace('&3', str(cell)))
+        self.output_message(Text.ARRIVAL_AT_CELL % (str(player), player.position, str(cell)))
 
         if isinstance(cell, Cell.FreeParkingCell):
             if self.board.bank_money == 0:
                 self.output_message(Text.BUT_FREE_PARKING_EMPTY)
             else:
-                self.give_money_to_player(player, self.board.bank_money, Text.FREE_PARKING_FOR.replace('&1', str(player)))
+                self.give_money_to_player(player, self.board.bank_money, Text.FREE_PARKING_FOR % str(player))
                 self.board.bank_money = 0
 
         if isinstance(cell, Cell.MoneyCell):
@@ -332,10 +316,10 @@ class Game:
                 self.player_gives_money_to_player(player,
                                                   estate.get_current_rent(),
                                                   estate.owner,
-                                                  Text.RENT_FOR.replace('&1', estate.get_name_and_level()))
+                                                  Text.RENT_FOR % (estate.get_name_and_level()))
 
         if isinstance(cell, Cell.GoToJailCell):
             prison_cell = next(c for c in self.board.cells if isinstance(c, Cell.JailCell))
-            self.output_message(resolve_text(Text.SOMEONE_GOES_IN_PRISON, str(player)))
+            self.output_message(Text.SOMEONE_GOES_IN_PRISON % str(player))
             player.position = self.board.cells.index(prison_cell) + 1
             player.is_in_jail = True

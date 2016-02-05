@@ -173,12 +173,12 @@ def test_roll(game):
     origin_position = player.position
     Command.ROLL().as_caller(player.nickname).send(game)
 
-    assert message_received_history[-2].startswith(Text.ROLL_RESULT.split("&2")[0].replace("&1", player.nickname))
+    assert message_received_history[-2].startswith(Text.ROLL_RESULT.split("%i")[0] % player.nickname)
 
     roll_score = get_roll_score_from_message(message_received_history[-2])
     new_expected_position = origin_position + roll_score
 
-    assert message_received_history[-1] == Text.NEW_POSITION.replace("&1", player.nickname).replace("&2", repr(new_expected_position))
+    assert message_received_history[-1] == Text.NEW_POSITION % (player.nickname, new_expected_position)
 
 def test_roll_at_end_of_board(game):
     test_register_players(game)
@@ -205,17 +205,13 @@ def test_give_money_to_player(game):
     game.give_money_to_player(player, 100, 'il fait caca')
 
     assert player.money == 110
-    assert message_received == (Text.RECEIVES_MONEY.replace('&1', player.nickname)
-                                                  .replace('&2', repr(100))
-                                                  .replace('&3', 'il fait caca'))
+    assert message_received == Text.RECEIVES_MONEY % (player.nickname, 100, 'il fait caca', player.money)
 
     player.money = 10
     game.give_money_to_player(player, -100, 'Chaussette au fromage')
 
     assert player.money == -90
-    assert message_received == (Text.LOSES_MONEY.replace('&1', player.nickname)
-                                                .replace('&2', repr(-100))
-                                                .replace('&3', 'Chaussette au fromage'))
+    assert message_received == Text.LOSES_MONEY % (player.nickname, -100, 'Chaussette au fromage', player.money)
 
 def test_salary_when_passing_start_cell(registered_game):
     player = registered_game.playing_player
@@ -245,7 +241,7 @@ def test_free_parking_cell(registered_game):
     registered_game.board.bank_money = 5000
     registered_game.forward_player(player, 10)
 
-    assert Text.FREE_PARKING_FOR.replace('&1', str(player)) in message_received
+    assert Text.FREE_PARKING_FOR % str(player) in message_received
     assert player.money == 10 + 5000
 
     registered_game.forward_player(player, -2)
@@ -297,7 +293,7 @@ def test_buy_estate_already_owned(registered_game):
     Command.BUY_ESTATE().as_caller(player).send(registered_game)
 
     assert registered_game.board.cells[3].estate.owner == owner
-    assert message_received == Text.ALREADY_OWNED_BY.replace('&1', str(owner))
+    assert message_received == Text.ALREADY_OWNED_BY % str(owner)
 
 def test_buy_estate(registered_game):
     player = registered_game.playing_player
@@ -307,10 +303,8 @@ def test_buy_estate(registered_game):
     Command.BUY_ESTATE().as_caller(player).send(registered_game)
 
     estate_bought = registered_game.board.cells[3].estate
-    assert message_received == (Text.SOMEONE_BUYS_ESTATE.replace('&1', str(player))
-                                                        .replace('&2', str(estate_bought))
-                                                        .replace('&3', repr(estate_bought.sell_price))
-                                                        .replace('&4', repr(player.money)))
+    assert message_received == (Text.SOMEONE_BUYS_ESTATE % (str(player), str(estate_bought),
+                                                            estate_bought.sell_price, player.money))
     assert estate_bought.owner == player
 
 def test_arrival_at_owned_estate(registered_game):
@@ -394,7 +388,7 @@ def test_upgrade_estate_not_estate_cell(registered_game_owner):
 
     assert message_received == ""
     assert private_message_received[0] == player.nickname
-    assert private_message_received[1] == Text.NOT_AN_ESTATE_CELL.replace("&1", str(game.board.cells[0]))
+    assert private_message_received[1] == Text.NOT_AN_ESTATE_CELL % str(game.board.cells[0])
 
 def test_upgrade_estate_already_max_level(registered_game_owner):
     game = registered_game_owner
@@ -406,7 +400,7 @@ def test_upgrade_estate_already_max_level(registered_game_owner):
 
     assert message_received == ""
     assert private_message_received[0] == player.nickname
-    assert private_message_received[1] == Text.ALREADY_MAX_LEVEL.replace("&1", str(game.board.cells[1].estate))
+    assert private_message_received[1] == Text.ALREADY_MAX_LEVEL % str(game.board.cells[1].estate)
 
 def test_upgrade_estate_no_more_hotel(registered_game_owner):
     game = registered_game_owner
@@ -447,7 +441,7 @@ def test_upgrade_estate_not_own_every_land(registered_game):
 
     assert message_received == ""
     assert private_message_received[0] == "broski"
-    assert private_message_received[1] == Text.NOT_ALL_GROUP_IS_OWNED.replace('&1', str(missing_cell.estate))
+    assert private_message_received[1] == Text.NOT_ALL_GROUP_IS_OWNED % str(missing_cell.estate)
     assert cell.estate.upgrade_level == 0
 
     cell = game.board.cells[6]
@@ -460,7 +454,7 @@ def test_upgrade_estate_not_own_every_land(registered_game):
 
     assert message_received == ""
     assert private_message_received[0] == "broski"
-    assert private_message_received[1] == Text.NOT_ALL_GROUP_IS_OWNED.replace('&1', ', '.join([str(c.estate) for c in missing_cells]))
+    assert private_message_received[1] == Text.NOT_ALL_GROUP_IS_OWNED % ', '.join([str(c.estate) for c in missing_cells])
     assert cell.estate.upgrade_level == 0
 
 def test_upgrade_estate_with_gap(registered_game_owner):
@@ -494,9 +488,7 @@ def test_upgrade_estate_not_enough_money(registered_game_owner):
 
     assert message_received == ""
     assert private_message_received[0] == "broski"
-    assert private_message_received[1] == (Text.NOT_ENOUGH_MONEY
-                                           .replace('&1', repr(game.board.cells[1].estate.upgrade_price))
-                                           .replace('&2', repr(player.money)))
+    assert private_message_received[1] == Text.NOT_ENOUGH_MONEY % (game.board.cells[1].estate.upgrade_price, player.money)
 
 def test_upgrade_estate(registered_game_owner):
     game = registered_game_owner
@@ -512,9 +504,7 @@ def test_upgrade_estate(registered_game_owner):
     Command.SELECT_CELL().as_caller(player).with_args(10).send(game)
     Command.UPGRADE_ESTATE().as_caller(player).send(game)
 
-    assert message_received == (Text.PLAYER_UPGRADES_ESTATE.replace('&1', player.nickname)
-                                                           .replace('&2', str(estate))
-                                                           .replace('&3', repr(1)))
+    assert message_received == (Text.PLAYER_UPGRADES_ESTATE % (player.nickname, str(estate), 1))
     assert estate.upgrade_level == 1
 
 
@@ -534,9 +524,7 @@ def test_upgrade_estate(registered_game_owner):
     Command.SELECT_CELL().as_caller(player).with_args(19).send(game)
     Command.UPGRADE_ESTATE().as_caller(player).send(game)
 
-    assert message_received == (Text.PLAYER_UPGRADES_ESTATE.replace('&1', player.nickname)
-                                                           .replace('&2', str(estate))
-                                                           .replace('&3', repr(3)))
+    assert message_received == (Text.PLAYER_UPGRADES_ESTATE % (player.nickname, str(estate), 3))
     assert estate.upgrade_level == 3
 
 def test_goto_jail(registered_game_owner):
@@ -547,6 +535,6 @@ def test_goto_jail(registered_game_owner):
     player.position = 21
     game.forward_player(player, 10)
 
-    assert message_received == Text.SOMEONE_GOES_IN_PRISON.replace('&1', str(player))
+    assert message_received == Text.SOMEONE_GOES_IN_PRISON % str(player)
     assert player.position == 11
     assert player.is_in_jail == True
