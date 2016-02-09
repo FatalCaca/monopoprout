@@ -7,7 +7,7 @@ class Text:
     GAME_STARTING = "Debut de la partie !"
     IT_IS_SOMEONES_TURN = "C'est a %s de jouer"
     GAME_CANT_START_WITHOUT_PLAYER = "La partie ne peut pas commencer, il faut au moins un joueur d'inscrit !"
-    ROLL_RESULT = "%s lance les des. Il fait un %i !"
+    ROLL_RESULT = "%s lance les des. Il fait un total de %i ! (%i et %i)"
     NEW_POSITION = "%s est maintenant a la case %i"
     TOO_MUCH_PLAYER_REGISTERED = "La partie est pleine !"
     RECEIVES_MONEY = "%s recoit %i (%s). Reste %i"
@@ -50,3 +50,4 @@ class Text:
     NOT_ENOUGH_MONEY = "Pas assez d'argent (il faut %i, vous avez %i)"
     PLAYER_UPGRADES_ESTATE = "%s upgrade %s au niveau %i !"
     SOMEONE_GOES_IN_PRISON = "%s tombe à la case prison ! Bye bye PD"
+    PLAYER_SCORED_A_DOUBLE = "%s a fait un double ! Il peut relancer les des !"

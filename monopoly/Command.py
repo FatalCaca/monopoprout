@@ -10,6 +10,7 @@ commands = {
     'BUY_ESTATE': 'Buy',
     'SELECT_CELL': 'Select',
     'UPGRADE_ESTATE': 'Upgrade',
+    'TEST_ROLL': 'TestRoll'
     }
 
 
@@ -29,7 +30,7 @@ class Command:
 
     def with_args(self, args):
         if isinstance(args, list):
-            self.args = args
+            self.args = [str(arg) for arg in args]
             return self
         
         if isinstance(args, str):

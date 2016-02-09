@@ -33,6 +33,7 @@ class Game:
                          "Buy": self.buy_estate_command,
                          "Select": self.select_cell_command,
                          "Upgrade": self.upgrade_estate_command,
+                         "TestRoll": self.test_roll_command,
                          }
         self.board = Board()
         self.players = []
@@ -197,18 +198,33 @@ class Game:
 
         self.players.append(Player(caller))
 
+    def test_roll_command(self, caller, args):
+        roll_score = (0, 0)
+        
+        try:
+            roll_score = (int(args[0]), int(args[1]))
+        except Exception:
+            print("ERROR during test_roll_command")
+            return
+
+        self.validate_roll(roll_score)
+
     def roll_command(self, caller, args):
         if caller != self.playing_player.nickname:
             return
 
-        roll_score = random.randint(1, 12)
-        self.playing_player.position += roll_score  
+        roll_score = (random.randint(1, 6), random.randint(1, 6))
+        self.validate_roll(roll_score)
+
+    def validate_roll(self, roll_score):
+        self.playing_player.position += sum(roll_score) 
 
         if self.playing_player.position > len(self.board.cells):
             self.playing_player.position -= len(self.board.cells)
 
-        self.output_message(Text.ROLL_RESULT % (self.playing_player.nickname, roll_score))
+        self.output_message(Text.ROLL_RESULT % (self.playing_player.nickname, sum(roll_score), roll_score[0], roll_score[1]))
         self.output_message(Text.NEW_POSITION % (self.playing_player.nickname, self.playing_player.position))
+        self.output_message(Text.PLAYER_SCORED_A_DOUBLE % (self.playing_player.nickname))
 
     def output_message(self, message):
         if(self.output_channel != None):
