@@ -22,6 +22,7 @@ class Game:
     MAX_PLAYER = 8
     SALARY = 200
     STARTING_MONEY = 50
+    JAIL_TOLL = 200
 
     def __init__(self):
         self.game_state = GameState.NOT_STARTED
@@ -34,6 +35,8 @@ class Game:
                          "Select": self.select_cell_command,
                          "Upgrade": self.upgrade_estate_command,
                          "TestRoll": self.test_roll_command,
+                         "PayForJail": self.pay_for_jail_command,
+                         "EndTurn": self.end_turn_command,
                          }
         self.board = Board()
         self.players = []
@@ -65,6 +68,30 @@ class Game:
             print("Error: command binding missing for [" + command_name + "]")
 
         self.busy = False
+
+    def end_turn_command(self, caller, args):
+        player = self.get_player_from_nickname(caller)
+
+        if player != self.playing_player:
+            return
+
+        self.next_turn()
+
+    def pay_for_jail_command(self, caller, args):
+        player = self.get_player_from_nickname(caller)
+        if player != self.playing_player:
+            return
+
+        if not player.is_in_jail:
+            return
+
+        if player.money < Game.JAIL_TOLL:
+            self.tell_player_he_doesnt_have_enough_money(player, Game.JAIL_TOLL)
+            return
+
+        player.money -= Game.JAIL_TOLL
+        player.is_in_jail = False
+        self.output_message(Text.GOES_OUT_OF_JAIL_BY_PAYING % str(player))
 
     def upgrade_estate_command(self, caller, args):
         player = self.get_player_from_nickname(caller)
@@ -173,7 +200,8 @@ class Game:
             self.next_turn()
 
     def next_turn(self):
-        index = self.players.index(self.playing_player)
+        index = self.players.index(self.playing_player) + 1
+
         if index >= len(self.players):
             index = 1
 

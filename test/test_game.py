@@ -58,6 +58,15 @@ def registered_game_with_owners(registered_game):
     registered_game.board.cells[3].owner = player
     return registered_game
 
+@pytest.fixture()
+def jail_game(registered_game_with_owners):
+    game = registered_game_with_owners
+    player = registered_game_with_owners.playing_player
+    player.position = 21
+    game.forward_player(player, 10)
+    clear_messages_received()
+    return game
+
 def test_set_output_channel(game):
     message_send = "onche onche"
 
@@ -600,10 +609,38 @@ def test_get_out_of_jail_by_dice(registered_game_with_owners):
     assert game.playing_player.can_roll
     assert not game.playing_player.is_in_jail
 
-def test_get_out_of_jail_by_paying(registered_game_with_owners):
-    # TODO !!!
-    pass
+def test_get_out_of_jail_by_paying_not_enough_money(jail_game):
+    game = jail_game
+    player = game.playing_player
+    player.money = Game.JAIL_TOLL - 10
 
-def test_get_out_of_jail_by_waiting(registered_game_with_owners):
-    # TODO !!!
+    Command.PAY_FOR_JAIL().as_caller(player).send(game)
+
+    assert private_message_received[0] == str(player)
+    assert private_message_received[1] == Text.NOT_ENOUGH_MONEY % (Game.JAIL_TOLL, player.money)
+
+def test_get_out_of_jail_by_paying(jail_game):
+    game = jail_game
+    player = game.playing_player
+    player.money = Game.JAIL_TOLL + 100
+
+    Command.PAY_FOR_JAIL().as_caller(player).send(game)
+
+    assert Text.GOES_OUT_OF_JAIL_BY_PAYING % str(player) in message_received_history
+    assert player.money == 100
+    assert not player.is_in_jail
+
+def test_next_turn(registered_game_with_owners):
+    game = registered_game_with_owners
+    player = game.playing_player
+
+    Command.END_MY_TURN().as_caller(player).send(game)
+
+    assert player != game.playing_player
+    assert message_received == Text.IT_IS_SOMEONES_TURN % game.playing_player
+
+def test_get_out_of_jail_by_waiting(jail_game):
+    player = jail_game.playing_player
+
+    # TODO
     pass

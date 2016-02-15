@@ -53,3 +53,4 @@ class Text:
     PLAYER_SCORED_A_DOUBLE = "%s a fait un double ! Il peut relancer les des !"
     NO_ROLL_LEFT = "Vous ne pouvez plus lancer les des pour ce tour !"
     GOES_OUT_OF_JAIL_WITH_DOUBLE = "%s sort de prison grace a son double"
+    GOES_OUT_OF_JAIL_BY_PAYING = "%s sort de prison en payant"

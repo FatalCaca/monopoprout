@@ -10,7 +10,9 @@ commands = {
     'BUY_ESTATE': 'Buy',
     'SELECT_CELL': 'Select',
     'UPGRADE_ESTATE': 'Upgrade',
-    'TEST_ROLL': 'TestRoll'
+    'TEST_ROLL': 'TestRoll',
+    'PAY_FOR_JAIL': 'PayForJail',
+    'END_MY_TURN': 'EndTurn',
     }
 
 
