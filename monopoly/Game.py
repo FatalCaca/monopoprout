@@ -68,7 +68,6 @@ class Game:
 
     def upgrade_estate_command(self, caller, args):
         player = self.get_player_from_nickname(caller)
-        
         if player != self.playing_player:
             return
 
@@ -141,7 +140,7 @@ class Game:
 
         if cell.estate.owner:
             self.output_message(Text.ALREADY_OWNED_BY % str(cell.estate.owner))
-            return            
+            return
 
         if self.playing_player.money < cell.estate.sell_price:
             self.output_message(Text.NOT_ENOUGH_MONEY_TO_BUY_ESTATE)
@@ -170,8 +169,17 @@ class Game:
             self.output_message(Text.GAME_STARTING)
             self.game_state = GameState.GAME_STARTED
 
-            self.playing_player = self.players[0]
-            self.output_message(Text.IT_IS_SOMEONES_TURN % self.playing_player.nickname)
+            self.playing_player = self.players[-1]
+            self.next_turn()
+
+    def next_turn(self):
+        index = self.players.index(self.playing_player)
+        if index >= len(self.players):
+            index = 1
+
+        self.playing_player = self.players[index]
+        self.output_message(Text.IT_IS_SOMEONES_TURN % self.playing_player.nickname)
+        self.playing_player.can_roll = True
 
     def extract_command_nickname(self, command):
         return command.split(": ")[0]
@@ -200,7 +208,7 @@ class Game:
 
     def test_roll_command(self, caller, args):
         roll_score = (0, 0)
-        
+
         try:
             roll_score = (int(args[0]), int(args[1]))
         except Exception:
@@ -217,14 +225,25 @@ class Game:
         self.validate_roll(roll_score)
 
     def validate_roll(self, roll_score):
-        self.playing_player.position += sum(roll_score) 
+        if not self.playing_player.can_roll:
+            self.output_message(Text.NO_ROLL_LEFT)
+            return
+
+        self.playing_player.position += sum(roll_score)
 
         if self.playing_player.position > len(self.board.cells):
             self.playing_player.position -= len(self.board.cells)
 
+        self.playing_player.can_roll = False
         self.output_message(Text.ROLL_RESULT % (self.playing_player.nickname, sum(roll_score), roll_score[0], roll_score[1]))
         self.output_message(Text.NEW_POSITION % (self.playing_player.nickname, self.playing_player.position))
-        self.output_message(Text.PLAYER_SCORED_A_DOUBLE % (self.playing_player.nickname))
+        if roll_score[0] == roll_score[1]:
+            self.output_message(Text.PLAYER_SCORED_A_DOUBLE % (self.playing_player.nickname))
+            self.playing_player.can_roll = True
+
+            if self.playing_player.is_in_jail:
+                self.output_message(Text.GOES_OUT_OF_JAIL_WITH_DOUBLE % str(self.playing_player))
+                self.playing_player.is_in_jail = False
 
     def output_message(self, message):
         if(self.output_channel != None):

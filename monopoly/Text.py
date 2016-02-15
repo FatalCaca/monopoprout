@@ -14,7 +14,7 @@ class Text:
     LOSES_MONEY = "%s paie %i (%s). Reste %i"
     SALARY = "Salaire"
     COSTS = "(coute %i)"
-    
+
     # Estate
     OWNED_BY = '(Possede par %s)'
     AT_LEVEL = '[Upgrade %i]'
@@ -51,3 +51,5 @@ class Text:
     PLAYER_UPGRADES_ESTATE = "%s upgrade %s au niveau %i !"
     SOMEONE_GOES_IN_PRISON = "%s tombe à la case prison ! Bye bye PD"
     PLAYER_SCORED_A_DOUBLE = "%s a fait un double ! Il peut relancer les des !"
+    NO_ROLL_LEFT = "Vous ne pouvez plus lancer les des pour ce tour !"
+    GOES_OUT_OF_JAIL_WITH_DOUBLE = "%s sort de prison grace a son double"

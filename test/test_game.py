@@ -68,7 +68,7 @@ def test_set_output_channel(game):
 
 def test_extract_command_args(game):
     args = game.extract_command_args("bro: pouet lol fuck")
-    
+
     assert args == ["lol", "fuck"]
 
 def test_extract_command_args_with_no_args(game):
@@ -79,12 +79,12 @@ def test_extract_command_args_with_no_args(game):
 
 def test_extract_command_name(game):
     command_name = game.extract_command_name("bro: pouet lol fuck")
-    
+
     assert "pouet" == command_name
 
 def test_extract_command_nickname(game):
     nickname = game.extract_command_nickname("broski: pouet fuck")
-    
+
     assert nickname == "broski"
 
 def test_start_game(game):
@@ -188,25 +188,19 @@ def test_roll(game):
 
 def test_roll_at_end_of_board(game):
     test_register_players(game)
-
+    roll_score = 0
     player = game.playing_player
 
     clear_messages_received()
     player.position = 40
     Command.ROLL().as_caller(player).send(game)
     if len(message_received_history) == 2:
+        roll_score = get_roll_score_from_message(message_received_history[-2])
         assert player.position == get_roll_score_from_message(message_received_history[-2])
     elif len(message_received_history) == 3:
+        roll_score = get_roll_score_from_message(message_received_history[-3])
         assert player.position == get_roll_score_from_message(message_received_history[-3])
 
-    clear_messages_received()
-    player.position = 39
-    Command.ROLL().as_caller(player).send(game)
-    if len(message_received_history) == 2:
-        roll_score = get_roll_score_from_message(message_received_history[-2])
-    elif len(message_received_history) == 3:
-        roll_score = get_roll_score_from_message(message_received_history[-3])
-    
     clear_messages_received()
     Command.ROLL().as_caller(player).send(game)
     if len(message_received_history) == 2:
@@ -214,7 +208,14 @@ def test_roll_at_end_of_board(game):
     elif len(message_received_history) == 3:
         roll_score += get_roll_score_from_message(message_received_history[-3])
 
-    assert player.position == 39 + roll_score - len(game.board.cells)
+    clear_messages_received()
+    Command.ROLL().as_caller(player).send(game)
+    if len(message_received_history) == 2:
+        roll_score += get_roll_score_from_message(message_received_history[-2])
+    elif len(message_received_history) == 3:
+        roll_score += get_roll_score_from_message(message_received_history[-3])
+
+    assert player.position == 40 + roll_score - len(game.board.cells)
 
 def test_give_money_to_player(game):
     test_register_players(game)
@@ -328,7 +329,7 @@ def test_buy_estate(registered_game):
 
 def test_arrival_at_owned_estate(registered_game):
     player = registered_game.playing_player
-    owner = registered_game.players[-1]
+    owner = registered_game.players[-2]
 
     player.position = 1
     player.money = 1000
@@ -379,7 +380,7 @@ def test_select_cell(registered_game):
 
     cell_that_should_be_selected = registered_game.board.cells[1]
     Command.SELECT_CELL().as_caller(player.nickname).with_args(['2']).send(registered_game)
-    
+
     assert player.selected_cell == cell_that_should_be_selected
     assert private_message_received[0] == player.nickname
     assert cell_that_should_be_selected.estate.name in private_message_received[1]
@@ -459,7 +460,7 @@ def test_upgrade_estate_not_own_every_land(registered_game):
     Command.UPGRADE_ESTATE().as_caller(player).send(game)
 
     assert message_received == ""
-    assert private_message_received[0] == "broski"
+    assert private_message_received[0] == game.playing_player.nickname
     assert private_message_received[1] == Text.NOT_ALL_GROUP_IS_OWNED % str(missing_cell.estate)
     assert cell.estate.upgrade_level == 0
 
@@ -472,7 +473,7 @@ def test_upgrade_estate_not_own_every_land(registered_game):
     Command.UPGRADE_ESTATE().as_caller(player).send(game)
 
     assert message_received == ""
-    assert private_message_received[0] == "broski"
+    assert private_message_received[0] == game.playing_player.nickname
     assert private_message_received[1] == Text.NOT_ALL_GROUP_IS_OWNED % ', '.join([str(c.estate) for c in missing_cells])
     assert cell.estate.upgrade_level == 0
 
@@ -491,7 +492,7 @@ def test_upgrade_estate_with_gap(registered_game_with_owners):
     Command.UPGRADE_ESTATE().as_caller(player).send(game)
 
     assert message_received == ""
-    assert private_message_received[0] == "broski"
+    assert private_message_received[0] == game.playing_player.nickname
     assert private_message_received[1] == Text.ESTATE_TOO_HIGH_LEVEL_COMPARED_TO_GROUP
     assert cell1.estate.upgrade_level == 1
 
@@ -506,7 +507,7 @@ def test_upgrade_estate_not_enough_money(registered_game_with_owners):
     Command.UPGRADE_ESTATE().as_caller(player).send(game)
 
     assert message_received == ""
-    assert private_message_received[0] == "broski"
+    assert private_message_received[0] == game.playing_player.nickname
     assert private_message_received[1] == Text.NOT_ENOUGH_MONEY % (game.board.cells[1].estate.upgrade_price, player.money)
 
 def test_upgrade_estate(registered_game_with_owners):
@@ -564,7 +565,7 @@ def test_roll_double(registered_game):
     origin_position = player.position
 
     Command.TEST_ROLL().with_args([1, 1]).as_caller(player).send(game)
-    
+
     assert message_received_history[-3].startswith(Text.ROLL_RESULT.split("%i")[0] % player.nickname)
 
     roll_score = get_roll_score_from_message(message_received_history[-3])
@@ -576,8 +577,12 @@ def test_roll_double(registered_game):
 def test_roll_already_rolled(registered_game):
     game = registered_game
     player = game.playing_player
+    clear_messages_received()
 
-    # TODO !!
+    Command.TEST_ROLL().with_args([1, 2]).as_caller(player).send(game)
+    Command.TEST_ROLL().with_args([2, 3]).as_caller(player).send(game)
+
+    assert message_received_history[-1] == Text.NO_ROLL_LEFT
 
 def test_get_out_of_jail_by_dice(registered_game_with_owners):
     game = registered_game_with_owners
@@ -586,8 +591,14 @@ def test_get_out_of_jail_by_dice(registered_game_with_owners):
     player.position = 21
     game.forward_player(player, 10)
 
-    Command.TEST_ROLL().as_caller(player).with_args([1, 2]).send(game)
-    # TODO !!!
+    Command.TEST_ROLL().as_caller(player).with_args([2, 2]).send(game)
+
+    assert next(message for message in message_received_history if message.startswith(Text.ROLL_RESULT.split("%i")[0] % player.nickname))
+    assert Text.NEW_POSITION % (player.nickname, player.position) in message_received_history
+    assert Text.PLAYER_SCORED_A_DOUBLE % (player.nickname) in message_received_history
+    assert Text.GOES_OUT_OF_JAIL_WITH_DOUBLE % str(player) in message_received_history
+    assert game.playing_player.can_roll
+    assert not game.playing_player.is_in_jail
 
 def test_get_out_of_jail_by_paying(registered_game_with_owners):
     # TODO !!!

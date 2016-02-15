@@ -2,3 +2,9 @@ Monopoly.py
 MonopolyTester.py
 */**/*.pyc
 .cache
+*/**/*.swp
+*/**/*.swo
+*/**/*.swn
+.swp
+.swo
+.swn
