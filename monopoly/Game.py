@@ -23,6 +23,7 @@ class Game:
     SALARY = 200
     STARTING_MONEY = 50
     JAIL_TOLL = 200
+    MAX_TURNS_IN_JAIL = 3
 
     def __init__(self):
         self.game_state = GameState.NOT_STARTED
@@ -73,6 +74,11 @@ class Game:
         player = self.get_player_from_nickname(caller)
 
         if player != self.playing_player:
+            print("END_TURN pas bon joueur")
+            return
+
+        if player.can_roll:
+            self.send_private_message(self.playing_player, Text.MUST_ROLL_BEFORE_END_TURN)
             return
 
         self.next_turn()
@@ -203,7 +209,7 @@ class Game:
         index = self.players.index(self.playing_player) + 1
 
         if index >= len(self.players):
-            index = 1
+            index = 0
 
         self.playing_player = self.players[index]
         self.output_message(Text.IT_IS_SOMEONES_TURN % self.playing_player.nickname)
@@ -235,6 +241,9 @@ class Game:
         self.players.append(Player(caller))
 
     def test_roll_command(self, caller, args):
+        if caller != self.playing_player.nickname:
+            return
+
         roll_score = (0, 0)
 
         try:
@@ -257,14 +266,9 @@ class Game:
             self.output_message(Text.NO_ROLL_LEFT)
             return
 
-        self.playing_player.position += sum(roll_score)
-
-        if self.playing_player.position > len(self.board.cells):
-            self.playing_player.position -= len(self.board.cells)
-
         self.playing_player.can_roll = False
         self.output_message(Text.ROLL_RESULT % (self.playing_player.nickname, sum(roll_score), roll_score[0], roll_score[1]))
-        self.output_message(Text.NEW_POSITION % (self.playing_player.nickname, self.playing_player.position))
+
         if roll_score[0] == roll_score[1]:
             self.output_message(Text.PLAYER_SCORED_A_DOUBLE % (self.playing_player.nickname))
             self.playing_player.can_roll = True
@@ -272,6 +276,24 @@ class Game:
             if self.playing_player.is_in_jail:
                 self.output_message(Text.GOES_OUT_OF_JAIL_WITH_DOUBLE % str(self.playing_player))
                 self.playing_player.is_in_jail = False
+
+        if not self.playing_player.is_in_jail:
+            self.playing_player.position += sum(roll_score)
+
+            if self.playing_player.position > len(self.board.cells):
+                self.playing_player.position -= len(self.board.cells)
+
+            self.output_message(Text.NEW_POSITION % (self.playing_player.nickname, self.playing_player.position))
+
+        else:
+            self.playing_player.turns_to_wait_in_jail -= 1
+
+            if self.playing_player.turns_to_wait_in_jail <= 0:
+                self.output_message(Text.GOES_OUT_OF_JAIL_BY_WAITING % str(self.playing_player))
+                self.playing_player.is_in_jail = False
+            else:
+                self.output_message(Text.MISSES_DOUBLE_TO_GET_OUT_OF_JAIL % (str(self.playing_player), self.playing_player.turns_to_wait_in_jail))
+
 
     def output_message(self, message):
         if(self.output_channel != None):
@@ -386,3 +408,4 @@ class Game:
             self.output_message(Text.SOMEONE_GOES_IN_PRISON % str(player))
             player.position = self.board.cells.index(prison_cell) + 1
             player.is_in_jail = True
+            player.turns_to_wait_in_jail = Game.MAX_TURNS_IN_JAIL

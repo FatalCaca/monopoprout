@@ -13,6 +13,8 @@ import pytest
 import re
 from pprint import pprint
 
+DEBUG = True
+
 get_roll_score_from_message = test_helper.get_roll_score_from_message
 
 message_received = ''
@@ -25,10 +27,16 @@ def mock_output_channel(message):
     message_received = message
     message_received_history.append(message)
 
+    if DEBUG:
+        print("global : " + message)
+
 def mock_private_output_channel(nickname, message):
     global private_message_received, private_message_received_history
     private_message_received = (nickname, message)
     private_message_received_history.append((nickname, message))
+
+    if DEBUG:
+        print("to %s : %s" % (nickname, message))
 
 def clear_messages_received():
     global message_received, message_received_history, private_message_received, private_message_received_history
@@ -193,7 +201,7 @@ def test_roll(game):
         assert message_received_history[-3].startswith(Text.ROLL_RESULT.split("%i")[0] % player.nickname)
         roll_score = get_roll_score_from_message(message_received_history[-3])
         new_expected_position = origin_position + roll_score
-        assert message_received_history[-2] == Text.NEW_POSITION % (player.nickname, new_expected_position)
+        assert message_received_history[-1] == Text.NEW_POSITION % (player.nickname, new_expected_position)
 
 def test_roll_at_end_of_board(game):
     test_register_players(game)
@@ -202,7 +210,7 @@ def test_roll_at_end_of_board(game):
 
     clear_messages_received()
     player.position = 40
-    Command.ROLL().as_caller(player).send(game)
+    Command.TEST_ROLL().with_args([1, 2]).as_caller(player).send(game)
     if len(message_received_history) == 2:
         roll_score = get_roll_score_from_message(message_received_history[-2])
         assert player.position == get_roll_score_from_message(message_received_history[-2])
@@ -580,8 +588,8 @@ def test_roll_double(registered_game):
     roll_score = get_roll_score_from_message(message_received_history[-3])
     new_expected_position = origin_position + roll_score
 
-    assert message_received_history[-2] == Text.NEW_POSITION % (player.nickname, new_expected_position)
-    assert message_received_history[-1] == Text.PLAYER_SCORED_A_DOUBLE % (player.nickname)
+    assert Text.NEW_POSITION % (player.nickname, new_expected_position) in message_received_history
+    assert Text.PLAYER_SCORED_A_DOUBLE % (player.nickname) in message_received_history
 
 def test_roll_already_rolled(registered_game):
     game = registered_game
@@ -602,7 +610,6 @@ def test_get_out_of_jail_by_dice(registered_game_with_owners):
 
     Command.TEST_ROLL().as_caller(player).with_args([2, 2]).send(game)
 
-    assert next(message for message in message_received_history if message.startswith(Text.ROLL_RESULT.split("%i")[0] % player.nickname))
     assert Text.NEW_POSITION % (player.nickname, player.position) in message_received_history
     assert Text.PLAYER_SCORED_A_DOUBLE % (player.nickname) in message_received_history
     assert Text.GOES_OUT_OF_JAIL_WITH_DOUBLE % str(player) in message_received_history
@@ -634,13 +641,62 @@ def test_next_turn(registered_game_with_owners):
     game = registered_game_with_owners
     player = game.playing_player
 
+    Command.TEST_ROLL().as_caller(player).with_args([1, 2]).send(game)
     Command.END_MY_TURN().as_caller(player).send(game)
 
     assert player != game.playing_player
     assert message_received == Text.IT_IS_SOMEONES_TURN % game.playing_player
 
-def test_get_out_of_jail_by_waiting(jail_game):
-    player = jail_game.playing_player
+def test_next_turn_without_rolling(registered_game_with_owners):
+    game = registered_game_with_owners
+    player = game.playing_player
 
-    # TODO
-    pass
+    Command.END_MY_TURN().as_caller(player).send(game)
+
+    assert player == game.playing_player
+    assert private_message_received_history[-1][1] == Text.MUST_ROLL_BEFORE_END_TURN
+
+def test_get_out_of_jail_by_waiting(game):
+    playerA = Player('plox')
+    playerB = Player('poil')
+
+    Command.START_GAME().as_caller(playerA).send(game)
+    Command.REGISTER_PLAYER().as_caller(playerA).send(game)
+    Command.REGISTER_PLAYER().as_caller(playerB).send(game)
+    Command.START_GAME().as_caller(playerA).send(game)
+
+    playerA = game.players[0]
+    playerB = game.players[1]
+
+    Command.END_MY_TURN().as_caller(playerA).send(game)
+    Command.END_MY_TURN().as_caller(playerA).send(game)
+    Command.END_MY_TURN().as_caller(playerA).send(game)
+    Command.END_MY_TURN().as_caller(playerA).send(game)
+    Command.TEST_ROLL().as_caller(playerA).with_args([1, 2]).send(game)
+    playerA.position = 30
+    game.forward_player(playerA, 1)
+    Command.END_MY_TURN().as_caller(playerA).send(game)
+
+    Command.TEST_ROLL().as_caller(playerB).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(playerB).send(game)
+
+    # 1st turn
+    Command.TEST_ROLL().as_caller(playerA).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(playerA).send(game)
+
+    Command.TEST_ROLL().as_caller(playerB).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(playerB).send(game)
+
+    # 2nd turn
+    Command.TEST_ROLL().as_caller(playerA).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(playerA).send(game)
+
+    Command.TEST_ROLL().as_caller(playerB).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(playerB).send(game)
+
+    # 3rd turn
+    Command.TEST_ROLL().as_caller(playerA).with_args([1, 2]).send(game)
+
+    assert message_received == Text.GOES_OUT_OF_JAIL_BY_WAITING % str(playerA)
+    assert not game.playing_player.is_in_jail
+    assert game.playing_player.turns_to_wait_in_jail == 0

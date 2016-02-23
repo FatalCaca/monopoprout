@@ -6,8 +6,8 @@ class Player:
         self.is_in_jail = False
         self.money = 0
         self.selected_cell = None
-        self.can_roll = False
-        self.turns_in_jail = 0
+        self.can_roll = True
+        self.turns_to_wait_in_jail = 0
 
     def __str__(self):
         return self.nickname

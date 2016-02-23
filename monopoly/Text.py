@@ -32,7 +32,7 @@ class Text:
     COMMUNITY_CHEST_CELL = "Case caisse de communaute"
     FREE_PARKING_CELL = "Case maxiloot"
     JAIL_CELL = "Case prison"
-    GO_TO_JAIL_CELL = "Case 'vas en prison connard'"
+    GO_TO_JAIL_CELL = "Case va prison connard'"
     FREE_PARKING_FOR = "Maxiloot pour %s !"
     BUT_FREE_PARKING_EMPTY = "Malheureusemtn c'est vide pd"
 
@@ -54,3 +54,6 @@ class Text:
     NO_ROLL_LEFT = "Vous ne pouvez plus lancer les des pour ce tour !"
     GOES_OUT_OF_JAIL_WITH_DOUBLE = "%s sort de prison grace a son double"
     GOES_OUT_OF_JAIL_BY_PAYING = "%s sort de prison en payant"
+    GOES_OUT_OF_JAIL_BY_WAITING = "%s sort de prison en arrivant à la limite de tour"
+    MUST_ROLL_BEFORE_END_TURN = "Il faut roll avant de pouvoir terminer son tour"
+    MISSES_DOUBLE_TO_GET_OUT_OF_JAIL = "%s rate son double, pas de sortie de prison ! (encore %i tours en prison)"
