@@ -25,7 +25,7 @@ class Game:
     JAIL_TOLL = 200
     MAX_TURNS_IN_JAIL = 3
 
-    def __init__(self):
+    def __init__(self, game_over_callback=None):
         self.game_state = GameState.NOT_STARTED
 
         self.command_bindings = {
@@ -45,7 +45,12 @@ class Game:
         self.output_channel = None
         self.private_output_channel = None
         self.busy = False
+        self.game_over = False
 
+        if game_over_callback:
+            self.game_over_callback = game_over_callback
+        else:
+            self.game_over_callback = self.dummy_game_over
 
     """
     Commands format : "nickname: arg1 arg2 argn"
@@ -80,6 +85,19 @@ class Game:
         if player.can_roll:
             self.send_private_message(self.playing_player, Text.MUST_ROLL_BEFORE_END_TURN)
             return
+
+        if player.money < 0:
+            self.output_message(Text.PLAYER_GOES_BANKRUPT % str(player))
+            new_playing_player_index = self.players.index(self.playing_player) - 1
+
+            if new_playing_player_index < 0:
+                new_playing_player_index = len(self.players) - 2
+
+            self.playing_player = self.players[new_playing_player_index]
+            self.players.remove(player)
+
+        if len(self.players) == 1:
+            self.end_game()
 
         self.next_turn()
 
@@ -206,6 +224,9 @@ class Game:
             self.next_turn()
 
     def next_turn(self):
+        if self.game_over:
+            return
+
         index = self.players.index(self.playing_player) + 1
 
         if index >= len(self.players):
@@ -409,3 +430,12 @@ class Game:
             player.position = self.board.cells.index(prison_cell) + 1
             player.is_in_jail = True
             player.turns_to_wait_in_jail = Game.MAX_TURNS_IN_JAIL
+
+    def end_game(self):
+        self.output_message(Text.GAME_OVER % (str(self.players[0]), str(self.players[0])))
+        self.game_over = True
+        self.game_over_callback()
+
+    def dummy_game_over(self):
+        self.output_message("No gameover callback specified")
+        print("No gameover callback specified")

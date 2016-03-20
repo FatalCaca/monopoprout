@@ -700,3 +700,33 @@ def test_get_out_of_jail_by_waiting(game):
     assert message_received == Text.GOES_OUT_OF_JAIL_BY_WAITING % str(playerA)
     assert not game.playing_player.is_in_jail
     assert game.playing_player.turns_to_wait_in_jail == 0
+
+def test_bankrupt(registered_game_with_owners):
+    game = registered_game_with_owners
+    player = game.playing_player
+    starting_player_amount = len(game.players)
+
+    player.money = -1
+    Command.TEST_ROLL().as_caller(player).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(player).send(game)
+
+    assert (Text.PLAYER_GOES_BANKRUPT % str(player)) in message_received_history, "There should be a bankrupt message"
+    assert len(game.players) == starting_player_amount - 1, "The player should be removed from the list"
+
+def test_game_over(registered_game_with_owners):
+    game = registered_game_with_owners
+
+    game.playing_player.money = -1
+    Command.TEST_ROLL().as_caller(game.playing_player).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(game.playing_player).send(game)
+
+    game.playing_player.money = -1
+    Command.TEST_ROLL().as_caller(game.playing_player).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(game.playing_player).send(game)
+
+    game.playing_player.money = -1
+    Command.TEST_ROLL().as_caller(game.playing_player).with_args([1, 2]).send(game)
+    Command.END_MY_TURN().as_caller(game.playing_player).send(game)
+
+    assert len(game.players) == 1, "there should remain only one player"
+    assert (Text.GAME_OVER % (str(game.players[0]), str(game.players[0]))) in message_received_history, "There should be a gameover message"

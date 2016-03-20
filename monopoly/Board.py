@@ -15,6 +15,12 @@ class Board:
         self.houses_available = 50
         self.hotels_available = 10
 
+    def __len__(self):
+        return len(self.cells)
+
+    def __getitem__(self, position):
+        return self.cell[position]
+
     def get_cell_index(self, cell):
         return self.cells.index(cell)
 

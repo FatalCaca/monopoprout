@@ -57,3 +57,5 @@ class Text:
     GOES_OUT_OF_JAIL_BY_WAITING = "%s sort de prison en arrivant à la limite de tour"
     MUST_ROLL_BEFORE_END_TURN = "Il faut roll avant de pouvoir terminer son tour"
     MISSES_DOUBLE_TO_GET_OUT_OF_JAIL = "%s rate son double, pas de sortie de prison ! (encore %i tours en prison)"
+    PLAYER_GOES_BANKRUPT = "%s n'a plus de sousous et est elimine !"
+    GAME_OVER = "La partie est terminee ! C est %s qui gagne ! BRAVAU %s"
