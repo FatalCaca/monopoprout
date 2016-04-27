@@ -52,9 +52,6 @@ class Game:
         else:
             self.game_over_callback = self.dummy_game_over
 
-    """
-    Commands format : "nickname: arg1 arg2 argn"
-    """
     def send_command(self, command_text):
         while self.busy:
             pass
