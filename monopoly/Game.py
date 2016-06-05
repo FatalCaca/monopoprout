@@ -27,17 +27,17 @@ class Game:
         self.game_state = GameState.NOT_STARTED
 
         self.command_bindings = {
-                         "StartGame": self.start_game_command,
-                         "IPlay": self.register_player_command,
-                         "Roll": self.roll_command,
-                         "Buy": self.buy_estate_command,
-                         "Select": self.select_cell_command,
-                         "Upgrade": self.upgrade_estate_command,
-                         "TestRoll": self.test_roll_command,
-                         "PayForJail": self.pay_for_jail_command,
-                         "EndTurn": self.end_turn_command,
-                         "Money": self.money_command,
-                         "Info": self.info_command,
+                         "startgame": self.start_game_command,
+                         "iplay": self.register_player_command,
+                         "roll": self.roll_command,
+                         "buy": self.buy_estate_command,
+                         "select": self.select_cell_command,
+                         "upgrade": self.upgrade_estate_command,
+                         "testroll": self.test_roll_command,
+                         "payforjail": self.pay_for_jail_command,
+                         "endturn": self.end_turn_command,
+                         "money": self.money_command,
+                         "info": self.info_command,
                          }
         self.board = Board()
         self.players = []
@@ -68,7 +68,7 @@ class Game:
             return
 
         try:
-            self.command_bindings[command_name](caller, args)
+            self.command_bindings[command_name.lower()](caller, args)
         except KeyError:
             print("Error: command binding missing for [" + command_name + "]")
 
