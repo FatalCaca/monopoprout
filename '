@@ -1,0 +1,30 @@
+__author__ = 'simon.ballu@gmail.com'
+
+
+from monopoly.Game import Game
+import test.test_game as tg
+import sys
+
+
+def coincoin(message):
+    print(message)
+
+def coincoin_private(target, message):
+    print(target + ": " + message)
+
+
+game = Game()
+
+if len(sys.argv):
+    if sys.argv[0] == "caca":
+        print("Starting with a premade game")
+        game = tg.registered_game(tg.game())
+
+game.output_channel = coincoin
+game.private_output_channel = coincoin_private
+
+command = input()
+
+while command != "caca":
+    command = input()
+    game.send_command(command)

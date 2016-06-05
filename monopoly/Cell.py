@@ -61,21 +61,27 @@ class EstateCell(Cell):
         self.estate = estate
 
     def __str__(self):
-        return ' '.join((self.estate.name,
-                         Text.AT,
-                         self.estate.city,
-                         '[' + repr(self.get_index_in_board()) + ']',
-                         Text.AT_LEVEL % self.estate.upgrade_level))
+        infos = [self.estate.name,
+                 Text.AT,
+                 self.estate.city,
+                 '[' + repr(self.get_index_in_board()) + ']',
+                 Text.AT_LEVEL % self.estate.upgrade_level]
+
+        if self.estate.owner:
+            infos.append(self.estate.owner)
+
+        return ' '.join(infos)
 
     def get_full_description(self):
-        return ' '.join((self.estate.name,
-                         Text.AT,
-                         self.estate.city,
-                         Text.OWNED_BY % str(self.estate.owner) if self.estate.owner != None else '',
-                         Text.AT_LEVEL % self.estate.upgrade_level,
-                         Text.RENT_AT % self.estate.get_current_rent()))
+        infos = [self.estate.name,
+                 Text.AT,
+                 self.estate.city,
+                 Text.OWNED_BY % str(self.estate.owner) if self.estate.owner != None else '',
+                 Text.AT_LEVEL % self.estate.upgrade_level,
+                 Text.RENT_AT % self.estate.get_current_rent(),
+                 Text.COSTS % self.estate.sell_price]
 
-
+        return ' '.join(infos)
 class CellFactory:
     def get_default_cells():
         estates = EstateFactory.get_default_estates()

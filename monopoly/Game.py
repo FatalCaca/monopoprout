@@ -7,8 +7,6 @@ from monopoly.Board import Board
 import monopoly.Cell as Cell
 
 import random
-from pprint import pprint
-from monopoly.helper import resolve_text
 
 random.seed()
 
@@ -21,7 +19,7 @@ class GameState:
 class Game:
     MAX_PLAYER = 8
     SALARY = 200
-    STARTING_MONEY = 50
+    STARTING_MONEY = 1000
     JAIL_TOLL = 200
     MAX_TURNS_IN_JAIL = 3
 
@@ -38,6 +36,8 @@ class Game:
                          "TestRoll": self.test_roll_command,
                          "PayForJail": self.pay_for_jail_command,
                          "EndTurn": self.end_turn_command,
+                         "Money": self.money_command,
+                         "Info": self.info_command,
                          }
         self.board = Board()
         self.players = []
@@ -54,6 +54,7 @@ class Game:
 
     def send_command(self, command_text):
         while self.busy:
+            print("caca")
             pass
 
         self.busy = True
@@ -63,6 +64,7 @@ class Game:
         command_name = self.extract_command_name(command_text)
 
         if caller == None or command_name == None:
+            self.busy = False
             return
 
         try:
@@ -71,6 +73,33 @@ class Game:
             print("Error: command binding missing for [" + command_name + "]")
 
         self.busy = False
+
+    def money_command(self, caller, args):
+        player = self.get_player_from_nickname(caller)
+
+        if not player:
+            return
+
+        self.send_private_message(player, Text.YOU_HAVE_THAT_MUCH_MONEY % player.money)
+
+    def info_command(self, caller, args):
+        player = self.get_player_from_nickname(caller)
+
+        if not player:
+            return
+
+        cell_index = player.position
+
+        if len(args):
+            cell_index = int(args[0])
+
+        cell_index -= 1
+
+        try:
+            self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index].get_full_description())
+        except KeyError:
+            print("Error: Wrong cell index for info request")
+
 
     def end_turn_command(self, caller, args):
         player = self.get_player_from_nickname(caller)
@@ -355,11 +384,11 @@ class Game:
             if isinstance(player, str):
                 self.private_output_channel(player, message)
                 return
-    
+
             if isinstance(player, Player):
                 self.private_output_channel(player.nickname, message)
                 return
-    
+
             print("Error for player type in send_private_message")
         print("ERROR: no private output message set")
 
@@ -373,7 +402,7 @@ class Game:
     def get_player_cell(self, player):
         try:
             return self.board.cells[player.position - 1]
-        except IndexError:  
+        except IndexError:
             print("ERROR: A player is not in a cell")
             return None
 

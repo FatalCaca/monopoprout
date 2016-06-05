@@ -59,3 +59,6 @@ class Text:
     MISSES_DOUBLE_TO_GET_OUT_OF_JAIL = "%s rate son double, pas de sortie de prison ! (encore %i tours en prison)"
     PLAYER_GOES_BANKRUPT = "%s n'a plus de sousous et est elimine !"
     GAME_OVER = "La partie est terminee ! C est %s qui gagne ! BRAVAU %s"
+
+    YOU_HAVE_THAT_MUCH_MONEY = "Vous avez %i"
+    THE_CELL = "[Case %i]"

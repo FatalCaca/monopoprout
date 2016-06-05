@@ -1,8 +1,7 @@
 __author__ = "Simon"
 
 
-import test_helper
-import monopoly.Cell as Cell
+from test import test_helper
 from monopoly.Game import Game
 from monopoly.Command import Command
 from monopoly.Text import Text
@@ -10,8 +9,6 @@ from monopoly.Player import Player
 from monopoly.Game import GameState
 
 import pytest
-import re
-from pprint import pprint
 
 DEBUG = True
 
@@ -57,7 +54,7 @@ def game():
 def registered_game(game):
     test_register_players(game)
     clear_messages_received()
-    return game 
+    return game
 
 @pytest.fixture()
 def registered_game_with_owners(registered_game):
@@ -383,9 +380,9 @@ def test_get_player_from_nickname(game):
     assert isinstance(game.get_player_from_nickname("Etronaute"), Player)
     assert isinstance(game.get_player_from_nickname("123"), Player)
 
-    assert game.get_player_from_nickname("Sauce").nickname == "Sauce" 
-    assert game.get_player_from_nickname("Etronaute").nickname == "Etronaute" 
-    assert game.get_player_from_nickname("123").nickname == "123" 
+    assert game.get_player_from_nickname("Sauce").nickname == "Sauce"
+    assert game.get_player_from_nickname("Etronaute").nickname == "Etronaute"
+    assert game.get_player_from_nickname("123").nickname == "123"
 
     assert game.get_player_from_nickname("CAckA") == None
     assert game.get_player_from_nickname("GUICK") == None
@@ -455,7 +452,7 @@ def test_upgrade_estate_no_more_hotel(registered_game_with_owners):
 def test_upgrade_estate_no_more_house(registered_game_with_owners):
     game = registered_game_with_owners
     player = game.playing_player
-    game.board.houses_available = 0  
+    game.board.houses_available = 0
 
     Command.SELECT_CELL().as_caller(player).with_args(2).send(game)
     Command.UPGRADE_ESTATE().as_caller(player).send(game)

@@ -1,0 +1,275 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ALREADY_MAX_LEVEL	monopoly/Text.py	/^    ALREADY_MAX_LEVEL = "%s est deja upgrade au maximum"$/;"	v	class:Text
+ALREADY_OWNED_BY	monopoly/Text.py	/^    ALREADY_OWNED_BY = "Cette propriete est deja possedee par %s !"$/;"	v	class:Text
+ARRIVAL_AT_CELL	monopoly/Text.py	/^    ARRIVAL_AT_CELL = '%s arrive a la case %i (%s)'$/;"	v	class:Text
+ASKING_WHOS_PLAYING	monopoly/Game.py	/^    ASKING_WHOS_PLAYING = 2$/;"	v	class:GameState
+AT	monopoly/Text.py	/^    AT = 'a'$/;"	v	class:Text
+AT_LEVEL	monopoly/Text.py	/^    AT_LEVEL = '[Upgrade %i]'$/;"	v	class:Text
+BUT_FREE_PARKING_EMPTY	monopoly/Text.py	/^    BUT_FREE_PARKING_EMPTY = "Malheureusemtn c'est vide pd"$/;"	v	class:Text
+Board	monopoly/Board.py	/^class Board:$/;"	c
+CELL_SELECTED_INFOS	monopoly/Text.py	/^    CELL_SELECTED_INFOS = "Selection de %s"$/;"	v	class:Text
+COMMUNITY_CHEST_CELL	monopoly/Text.py	/^    COMMUNITY_CHEST_CELL = "Case caisse de communaute"$/;"	v	class:Text
+COSTS	monopoly/Text.py	/^    COSTS = "(coute %i)"$/;"	v	class:Text
+Cell	monopoly/Cell.py	/^class Cell:$/;"	c
+CellFactory	monopoly/Cell.py	/^class CellFactory:$/;"	c
+Command	monopoly/Command.py	/^class Command:$/;"	c
+CommunityChestCell	monopoly/Cell.py	/^class CommunityChestCell(Cell):$/;"	c
+DEBUG	test/test_game.py	/^DEBUG = True$/;"	v
+DiceEstate	monopoly/Estate.py	/^class DiceEstate:$/;"	c
+END_OF_REGISTRATION	monopoly/Text.py	/^    END_OF_REGISTRATION = "Fin des inscriptions. Joueurs inscrits : "$/;"	v	class:Text
+ESTATE_TOO_HIGH_LEVEL_COMPARED_TO_GROUP	monopoly/Text.py	/^    ESTATE_TOO_HIGH_LEVEL_COMPARED_TO_GROUP = "Cette propriete a un niveau trop eleve par rapport au reste du groupe"$/;"	v	class:Text
+Estate	monopoly/Estate.py	/^class Estate:$/;"	c
+EstateCell	monopoly/Cell.py	/^class EstateCell(Cell):$/;"	c
+EstateFactory	monopoly/Estate.py	/^class EstateFactory:$/;"	c
+FREE_PARKING_CELL	monopoly/Text.py	/^    FREE_PARKING_CELL = "Case maxiloot"$/;"	v	class:Text
+FREE_PARKING_FOR	monopoly/Text.py	/^    FREE_PARKING_FOR = "Maxiloot pour %s !"$/;"	v	class:Text
+FreeParkingCell	monopoly/Cell.py	/^class FreeParkingCell(Cell):$/;"	c
+GAME_CANT_START_WITHOUT_PLAYER	monopoly/Text.py	/^    GAME_CANT_START_WITHOUT_PLAYER = "La partie ne peut pas commencer, il faut au moins un joueur d'inscrit !"$/;"	v	class:Text
+GAME_MASTER_PREFIX	monopoly/IrcStub.py	/^    GAME_MASTER_PREFIX = 'Game master'$/;"	v	class:IrcStub
+GAME_OVER	monopoly/Text.py	/^    GAME_OVER = "La partie est terminee ! C est %s qui gagne ! BRAVAU %s"$/;"	v	class:Text
+GAME_STARTED	monopoly/Game.py	/^    GAME_STARTED = 3$/;"	v	class:GameState
+GAME_STARTING	monopoly/Text.py	/^    GAME_STARTING = "Debut de la partie !"$/;"	v	class:Text
+GOES_OUT_OF_JAIL_BY_PAYING	monopoly/Text.py	/^    GOES_OUT_OF_JAIL_BY_PAYING = "%s sort de prison en payant"$/;"	v	class:Text
+GOES_OUT_OF_JAIL_BY_WAITING	monopoly/Text.py	/^    GOES_OUT_OF_JAIL_BY_WAITING = "%s sort de prison en arrivant à la limite de tour"$/;"	v	class:Text
+GOES_OUT_OF_JAIL_WITH_DOUBLE	monopoly/Text.py	/^    GOES_OUT_OF_JAIL_WITH_DOUBLE = "%s sort de prison grace a son double"$/;"	v	class:Text
+GO_TO_JAIL_CELL	monopoly/Text.py	/^    GO_TO_JAIL_CELL = "Case va prison connard'"$/;"	v	class:Text
+Game	monopoly/Game.py	/^class Game:$/;"	c
+GameState	monopoly/Game.py	/^class GameState:$/;"	c
+GoToJailCell	monopoly/Cell.py	/^class GoToJailCell(Cell):$/;"	c
+IS_NOT_ESTATE_CELL	monopoly/Text.py	/^    IS_NOT_ESTATE_CELL = "Ce n'est pas une case achetable lole"$/;"	v	class:Text
+IT_IS_SOMEONES_TURN	monopoly/Text.py	/^    IT_IS_SOMEONES_TURN = "C'est a %s de jouer"$/;"	v	class:Text
+IrcConnector	monopoly/IrcConnector.py	/^class IrcConnector():$/;"	c
+IrcStub	monopoly/IrcStub.py	/^class IrcStub():$/;"	c
+JAIL_CELL	monopoly/Text.py	/^    JAIL_CELL = "Case prison"$/;"	v	class:Text
+JAIL_TOLL	monopoly/Game.py	/^    JAIL_TOLL = 200$/;"	v	class:Game
+JailCard	monopoly/LuckCard.py	/^class JailCard(LuckCard):$/;"	c
+JailCell	monopoly/Cell.py	/^class JailCell(Cell):$/;"	c
+LOSES_MONEY	monopoly/Text.py	/^    LOSES_MONEY = "%s paie %i (%s). Reste %i"$/;"	v	class:Text
+LUCK_CELL	monopoly/Text.py	/^    LUCK_CELL = "Case chance"$/;"	v	class:Text
+LuckCard	monopoly/LuckCard.py	/^class LuckCard:$/;"	c
+LuckCardFactory	monopoly/LuckCard.py	/^class LuckCardFactory:$/;"	c
+LuckCell	monopoly/Cell.py	/^class LuckCell(Cell):$/;"	c
+MAX_PLAYER	monopoly/Game.py	/^    MAX_PLAYER = 8$/;"	v	class:Game
+MAX_TURNS_IN_JAIL	monopoly/Game.py	/^    MAX_TURNS_IN_JAIL = 3$/;"	v	class:Game
+MISSES_DOUBLE_TO_GET_OUT_OF_JAIL	monopoly/Text.py	/^    MISSES_DOUBLE_TO_GET_OUT_OF_JAIL = "%s rate son double, pas de sortie de prison ! (encore %i tours en prison)"$/;"	v	class:Text
+MUST_ROLL_BEFORE_END_TURN	monopoly/Text.py	/^    MUST_ROLL_BEFORE_END_TURN = "Il faut roll avant de pouvoir terminer son tour"$/;"	v	class:Text
+MoneyCell	monopoly/Cell.py	/^class MoneyCell(Cell):$/;"	c
+NEW_POSITION	monopoly/Text.py	/^    NEW_POSITION = "%s est maintenant a la case %i"$/;"	v	class:Text
+NOT_ALL_GROUP_IS_OWNED	monopoly/Text.py	/^    NOT_ALL_GROUP_IS_OWNED = "Vous ne possedez pas tous les terrains du groupe. Il vous manque : %s"$/;"	v	class:Text
+NOT_AN_ESTATE_CELL	monopoly/Text.py	/^    NOT_AN_ESTATE_CELL = "%s n'est pas une case propriete"$/;"	v	class:Text
+NOT_ENOUGH_MONEY	monopoly/Text.py	/^    NOT_ENOUGH_MONEY = "Pas assez d'argent (il faut %i, vous avez %i)"$/;"	v	class:Text
+NOT_ENOUGH_MONEY_TO_BUY_ESTATE	monopoly/Text.py	/^    NOT_ENOUGH_MONEY_TO_BUY_ESTATE = "Pas assez d'argent pour acheter !"$/;"	v	class:Text
+NOT_STARTED	monopoly/Game.py	/^    NOT_STARTED = 1$/;"	v	class:GameState
+NO_MORE_HOTEL	monopoly/Text.py	/^    NO_MORE_HOTEL = "Il ne reste plus d'hotel disponible"$/;"	v	class:Text
+NO_MORE_HOUSE	monopoly/Text.py	/^    NO_MORE_HOUSE = "Il ne reste plus de maison disponible"$/;"	v	class:Text
+NO_ROLL_LEFT	monopoly/Text.py	/^    NO_ROLL_LEFT = "Vous ne pouvez plus lancer les des pour ce tour !"$/;"	v	class:Text
+OWNED_BY	monopoly/Text.py	/^    OWNED_BY = '(Possede par %s)'$/;"	v	class:Text
+PLAYER_GIVES_MONEY_TO_PLAYER	monopoly/Text.py	/^    PLAYER_GIVES_MONEY_TO_PLAYER = "%s donne %i a %s (%s). Reste %i et %i"$/;"	v	class:Text
+PLAYER_GOES_BANKRUPT	monopoly/Text.py	/^    PLAYER_GOES_BANKRUPT = "%s n'a plus de sousous et est elimine !"$/;"	v	class:Text
+PLAYER_SCORED_A_DOUBLE	monopoly/Text.py	/^    PLAYER_SCORED_A_DOUBLE = "%s a fait un double ! Il peut relancer les des !"$/;"	v	class:Text
+PLAYER_UPGRADES_ESTATE	monopoly/Text.py	/^    PLAYER_UPGRADES_ESTATE = "%s upgrade %s au niveau %i !"$/;"	v	class:Text
+Player	monopoly/Player.py	/^class Player:$/;"	c
+RECEIVES_MONEY	monopoly/Text.py	/^    RECEIVES_MONEY = "%s recoit %i (%s). Reste %i"$/;"	v	class:Text
+RENT_AT	monopoly/Text.py	/^    RENT_AT = '[Loyer a %i]'$/;"	v	class:Text
+RENT_FOR	monopoly/Text.py	/^    RENT_FOR = "Loyer pour %s"$/;"	v	class:Text
+ROLL_RESULT	monopoly/Text.py	/^    ROLL_RESULT = "%s lance les des. Il fait un total de %i ! (%i et %i)"$/;"	v	class:Text
+SALARY	monopoly/Game.py	/^    SALARY = 200$/;"	v	class:Game
+SALARY	monopoly/Text.py	/^    SALARY = "Salaire"$/;"	v	class:Text
+SOMEONE_BUYS_ESTATE	monopoly/Text.py	/^    SOMEONE_BUYS_ESTATE = '%s achete %s pour %i ! (reste %i)'$/;"	v	class:Text
+SOMEONE_GOES_IN_PRISON	monopoly/Text.py	/^    SOMEONE_GOES_IN_PRISON = "%s tombe à la case prison ! Bye bye PD"$/;"	v	class:Text
+STARTING_MONEY	monopoly/Game.py	/^    STARTING_MONEY = 50$/;"	v	class:Game
+START_GAME	monopoly/Text.py	/^    START_GAME = "kikijou ? (IPlay)"$/;"	v	class:Text
+StationEstate	monopoly/Estate.py	/^class StationEstate:$/;"	c
+TOO_MUCH_PLAYER_REGISTERED	monopoly/Text.py	/^    TOO_MUCH_PLAYER_REGISTERED = "La partie est pleine !"$/;"	v	class:Text
+Text	monopoly/Text.py	/^class Text:$/;"	c
+UPGRADED_ESTATE	monopoly/Text.py	/^    UPGRADED_ESTATE = "%s upgrade %s !"$/;"	v	class:Text
+YOU_HAVE_THAT_MUCH_MONEY	monopoly/Text.py	/^    YOU_HAVE_THAT_MUCH_MONEY = "Vous avez %"$/;"	v	class:Text
+__author__	MonopolyTester.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	monopoly/Board.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	monopoly/Cell.py	/^__author__ = 'Simon'$/;"	v
+__author__	monopoly/Command.py	/^__author__ = "Simon"$/;"	v
+__author__	monopoly/Estate.py	/^__author__ = 'Simon'$/;"	v
+__author__	monopoly/Game.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	monopoly/IrcConnector.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	monopoly/IrcStub.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	monopoly/LuckCard.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	monopoly/Text.py	/^__author__ = "Simon"$/;"	v
+__author__	monopoly/helper.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	monopoly/irc_monopoly.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	test/test_board.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	test/test_cell.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	test/test_estate.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	test/test_game.py	/^__author__ = "Simon"$/;"	v
+__author__	test/test_helper.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__author__	test/test_monopoly_helper.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
+__constructor__	monopoly/IrcConnector.py	/^    def __constructor__(self):$/;"	m	class:IrcConnector	file:
+__constructor__	monopoly/IrcStub.py	/^    def __constructor__(self):$/;"	m	class:IrcStub	file:
+__getitem__	monopoly/Board.py	/^    def __getitem__(self, position):$/;"	m	class:Board	file:
+__init__	monopoly/Board.py	/^    def __init__(self):$/;"	m	class:Board
+__init__	monopoly/Cell.py	/^    def __init__(self, estate):$/;"	m	class:EstateCell
+__init__	monopoly/Cell.py	/^    def __init__(self, text, money_amount):$/;"	m	class:MoneyCell
+__init__	monopoly/Command.py	/^    def __init__(self, command_name):$/;"	m	class:Command
+__init__	monopoly/Estate.py	/^    def __init__(self, **kwds):$/;"	m	class:DiceEstate
+__init__	monopoly/Estate.py	/^    def __init__(self, **kwds):$/;"	m	class:Estate
+__init__	monopoly/Estate.py	/^    def __init__(self, **kwds):$/;"	m	class:StationEstate
+__init__	monopoly/Game.py	/^    def __init__(self, game_over_callback=None):$/;"	m	class:Game
+__init__	monopoly/LuckCard.py	/^    def __init__(self, text, money_variation=0, position_variation=0, new_position=0):$/;"	m	class:LuckCard
+__init__	monopoly/Player.py	/^    def __init__(self, nickname):$/;"	m	class:Player
+__len__	monopoly/Board.py	/^    def __len__(self):$/;"	m	class:Board	file:
+__str__	monopoly/Cell.py	/^    def  __str__(self):$/;"	m	class:Cell	file:
+__str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:CommunityChestCell	file:
+__str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:EstateCell	file:
+__str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:FreeParkingCell	file:
+__str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:GoToJailCell	file:
+__str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:JailCell	file:
+__str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:LuckCell	file:
+__str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:MoneyCell	file:
+__str__	monopoly/Estate.py	/^    def __str__(self):$/;"	m	class:Estate	file:
+__str__	monopoly/Player.py	/^    def __str__(self):$/;"	m	class:Player	file:
+_renew_community_chest_deck	monopoly/Board.py	/^    def _renew_community_chest_deck(self):$/;"	m	class:Board
+_renew_luck_card_deck	monopoly/Board.py	/^    def _renew_luck_card_deck(self):$/;"	m	class:Board
+arrival_at_cell	monopoly/Game.py	/^    def arrival_at_cell(self, player):$/;"	m	class:Game
+as_caller	monopoly/Command.py	/^    def as_caller(self, caller):$/;"	m	class:Command
+ask_board_for_index	monopoly/Cell.py	/^    ask_board_for_index = None$/;"	v	class:Cell
+board	test/test_board.py	/^def board():$/;"	f
+buy_estate_command	monopoly/Game.py	/^    def buy_estate_command(self, caller, args):$/;"	m	class:Game
+clear_messages_received	test/test_game.py	/^def clear_messages_received():$/;"	f
+coincoin	MonopolyTester.py	/^def coincoin(message):$/;"	f
+coincoin_private	MonopolyTester.py	/^def coincoin_private(target, message):$/;"	f
+command	MonopolyTester.py	/^    command = input()$/;"	v
+command	MonopolyTester.py	/^command = ""$/;"	v
+commands	monopoly/Command.py	/^commands = {$/;"	v
+connect	monopoly/IrcConnector.py	/^    def connect(self, server, port, nickname):$/;"	m	class:IrcConnector
+constructor_factory	monopoly/Command.py	/^def constructor_factory(command_string):$/;"	f
+draw_community_chest_card	monopoly/Board.py	/^    def draw_community_chest_card(self):$/;"	m	class:Board
+draw_luck_card	monopoly/Board.py	/^    def draw_luck_card(self):$/;"	m	class:Board
+dummy_game_over	monopoly/Game.py	/^    def dummy_game_over(self):$/;"	m	class:Game
+end_game	monopoly/Game.py	/^    def end_game(self):$/;"	m	class:Game
+end_turn_command	monopoly/Game.py	/^    def end_turn_command(self, caller, args):$/;"	m	class:Game
+extract_command_args	monopoly/Game.py	/^    def extract_command_args(self, command):$/;"	m	class:Game
+extract_command_name	monopoly/Game.py	/^    def extract_command_name(self, command):$/;"	m	class:Game
+extract_command_nickname	monopoly/Game.py	/^    def extract_command_nickname(self, command):$/;"	m	class:Game
+forward_player	monopoly/Game.py	/^    def forward_player(self, player, amount):$/;"	m	class:Game
+game	MonopolyTester.py	/^game = Game()$/;"	v
+game	monopoly/irc_monopoly.py	/^game = Game()$/;"	v
+game	test/test_game.py	/^def game():$/;"	f
+get_cell_index	monopoly/Board.py	/^    def get_cell_index(self, cell):$/;"	m	class:Board
+get_current_cell	monopoly/Game.py	/^    def get_current_cell(self):$/;"	m	class:Game
+get_current_rent	monopoly/Estate.py	/^    def get_current_rent(self):$/;"	m	class:Estate
+get_default_cells	monopoly/Cell.py	/^    def get_default_cells():$/;"	m	class:CellFactory
+get_default_community_chest_cards	monopoly/LuckCard.py	/^    def get_default_community_chest_cards():$/;"	m	class:LuckCardFactory
+get_default_estates	monopoly/Estate.py	/^    def get_default_estates():$/;"	m	class:EstateFactory
+get_default_luck_cards	monopoly/LuckCard.py	/^    def get_default_luck_cards():$/;"	m	class:LuckCardFactory
+get_full_description	monopoly/Cell.py	/^    def get_full_description(self):$/;"	m	class:Cell
+get_full_description	monopoly/Cell.py	/^    def get_full_description(self):$/;"	m	class:EstateCell
+get_full_description	monopoly/Estate.py	/^    def get_full_description(self):$/;"	m	class:Estate
+get_index_in_board	monopoly/Cell.py	/^    def get_index_in_board(self):$/;"	m	class:Cell
+get_name_and_level	monopoly/Estate.py	/^    def get_name_and_level(self):$/;"	m	class:Estate
+get_player_cell	monopoly/Game.py	/^    def get_player_cell(self, player):$/;"	m	class:Game
+get_player_from_nickname	monopoly/Game.py	/^    def get_player_from_nickname(self, nickname):$/;"	m	class:Game
+get_roll_score_from_message	test/test_game.py	/^get_roll_score_from_message = test_helper.get_roll_score_from_message$/;"	v
+get_roll_score_from_message	test/test_helper.py	/^def get_roll_score_from_message(message):$/;"	f
+get_selection_infos	monopoly/Cell.py	/^    def get_selection_infos(self):$/;"	m	class:Cell
+give_money_to_player	monopoly/Game.py	/^    def give_money_to_player(self, player, amount, reason):$/;"	m	class:Game
+hello	monopoly/IrcConnector.py	/^def hello(new_nick):$/;"	f
+input_channel	monopoly/IrcStub.py	/^    def input_channel(self, emmitter, message):$/;"	m	class:IrcStub
+irc	monopoly/irc_monopoly.py	/^irc = IrcStub()$/;"	v
+jail_game	test/test_game.py	/^def jail_game(registered_game_with_owners):$/;"	f
+join_channel	monopoly/IrcConnector.py	/^    def join_channel(self, channel_name):$/;"	m	class:IrcConnector
+message_received	test/test_game.py	/^message_received = ''$/;"	v
+message_received_history	test/test_game.py	/^message_received_history = []$/;"	v
+mock_output_channel	test/test_game.py	/^def mock_output_channel(message):$/;"	f
+mock_private_output_channel	test/test_game.py	/^def mock_private_output_channel(nickname, message):$/;"	f
+money_command	monopoly/Game.py	/^    def money_command(self, caller, args):$/;"	m	class:Game
+next_turn	monopoly/Game.py	/^    def next_turn(self):$/;"	m	class:Game
+nickname	monopoly/irc_monopoly.py	/^nickname = "monopoprout"$/;"	v
+output_message	monopoly/Game.py	/^    def output_message(self, message):$/;"	m	class:Game
+pay_for_jail_command	monopoly/Game.py	/^    def pay_for_jail_command(self, caller, args):$/;"	m	class:Game
+pick_effect	monopoly/LuckCard.py	/^    def pick_effect(self, game, player):$/;"	m	class:LuckCard
+ping	monopoly/IrcConnector.py	/^def ping():$/;"	f
+player_gives_money_to_player	monopoly/Game.py	/^    def player_gives_money_to_player(self, player_from, amount, player_to, reason):$/;"	m	class:Game
+port	monopoly/irc_monopoly.py	/^port = 7777$/;"	v
+pp	monopoly/IrcConnector.py	/^pp = None$/;"	v
+private_message_received	test/test_game.py	/^private_message_received = ''$/;"	v
+private_message_received_history	test/test_game.py	/^private_message_received_history = []$/;"	v
+register_player_command	monopoly/Game.py	/^    def register_player_command(self, caller, args):$/;"	m	class:Game
+registered_game	test/test_game.py	/^def registered_game(game):$/;"	f
+registered_game_with_owners	test/test_game.py	/^def registered_game_with_owners(registered_game):$/;"	f
+resolve_text	monopoly/helper.py	/^def resolve_text(text, *args):$/;"	f
+roll_command	monopoly/Game.py	/^    def roll_command(self, caller, args):$/;"	m	class:Game
+select_cell_command	monopoly/Game.py	/^    def select_cell_command(self, caller, args):$/;"	m	class:Game
+send	monopoly/Command.py	/^    def send(self, game):$/;"	m	class:Command
+send_command	monopoly/Game.py	/^    def send_command(self, command_text):$/;"	m	class:Game
+send_message	monopoly/IrcConnector.py	/^    def send_message(self, message):$/;"	m	class:IrcConnector
+send_message	monopoly/IrcStub.py	/^    def send_message(self):$/;"	m	class:IrcStub
+send_msg	monopoly/IrcConnector.py	/^def send_msg(chan, msg):$/;"	f
+send_private_message	monopoly/Game.py	/^    def send_private_message(self, player, message):$/;"	m	class:Game
+send_private_message	monopoly/IrcConnector.py	/^    def send_private_message(self, target, message):$/;"	m	class:IrcConnector
+send_private_message	monopoly/IrcStub.py	/^    def send_private_message(self, target, message):$/;"	m	class:IrcStub
+send_simple_message	monopoly/IrcConnector.py	/^def send_simple_message(msg):$/;"	f
+server	monopoly/irc_monopoly.py	/^server = "127.0.0.1"$/;"	v
+start_game_command	monopoly/Game.py	/^    def start_game_command(self, caller, args):$/;"	m	class:Game
+t	monopoly/IrcConnector.py	/^t = None$/;"	v
+tell_player_he_doesnt_have_enough_money	monopoly/Game.py	/^    def tell_player_he_doesnt_have_enough_money(self, player, required_amount):$/;"	m	class:Game
+test_arrival_at_owned_estate	test/test_game.py	/^def test_arrival_at_owned_estate(registered_game):$/;"	f
+test_bankrupt	test/test_game.py	/^def test_bankrupt(registered_game_with_owners):$/;"	f
+test_buy_estate	test/test_game.py	/^def test_buy_estate(registered_game):$/;"	f
+test_buy_estate_already_owned	test/test_game.py	/^def test_buy_estate_already_owned(registered_game):$/;"	f
+test_buy_estate_not_enough_money	test/test_game.py	/^def test_buy_estate_not_enough_money(registered_game):$/;"	f
+test_buy_estate_not_estate_cell	test/test_game.py	/^def test_buy_estate_not_estate_cell(registered_game):$/;"	f
+test_buy_estate_not_the_one_playing	test/test_game.py	/^def test_buy_estate_not_the_one_playing(registered_game):$/;"	f
+test_cell_factory	test/test_cell.py	/^def test_cell_factory():$/;"	f
+test_deck_renew	test/test_board.py	/^def test_deck_renew(board):$/;"	f
+test_double_salary_when_landing_on_start_cell	test/test_game.py	/^def test_double_salary_when_landing_on_start_cell(registered_game):$/;"	f
+test_estate_factory	test/test_estate.py	/^def test_estate_factory():$/;"	f
+test_extract_command_args	test/test_game.py	/^def test_extract_command_args(game):$/;"	f
+test_extract_command_args_with_no_args	test/test_game.py	/^def test_extract_command_args_with_no_args(game):$/;"	f
+test_extract_command_name	test/test_game.py	/^def test_extract_command_name(game):$/;"	f
+test_extract_command_nickname	test/test_game.py	/^def test_extract_command_nickname(game):$/;"	f
+test_free_parking_cell	test/test_game.py	/^def test_free_parking_cell(registered_game):$/;"	f
+test_game_initial_state	test/test_game.py	/^def test_game_initial_state(game):$/;"	f
+test_game_over	test/test_game.py	/^def test_game_over(registered_game_with_owners):$/;"	f
+test_get_index_in_board	test/test_board.py	/^def test_get_index_in_board(board):$/;"	f
+test_get_out_of_jail_by_dice	test/test_game.py	/^def test_get_out_of_jail_by_dice(registered_game_with_owners):$/;"	f
+test_get_out_of_jail_by_paying	test/test_game.py	/^def test_get_out_of_jail_by_paying(jail_game):$/;"	f
+test_get_out_of_jail_by_paying_not_enough_money	test/test_game.py	/^def test_get_out_of_jail_by_paying_not_enough_money(jail_game):$/;"	f
+test_get_out_of_jail_by_waiting	test/test_game.py	/^def test_get_out_of_jail_by_waiting(game):$/;"	f
+test_get_player_from_nickname	test/test_game.py	/^def test_get_player_from_nickname(game):$/;"	f
+test_give_money_to_player	test/test_game.py	/^def test_give_money_to_player(game):$/;"	f
+test_goto_jail	test/test_game.py	/^def test_goto_jail(registered_game_with_owners):$/;"	f
+test_new_board	test/test_board.py	/^def test_new_board(board):$/;"	f
+test_next_turn	test/test_game.py	/^def test_next_turn(registered_game_with_owners):$/;"	f
+test_next_turn_without_rolling	test/test_game.py	/^def test_next_turn_without_rolling(registered_game_with_owners):$/;"	f
+test_register_players	test/test_game.py	/^def test_register_players(game):$/;"	f
+test_register_players_too_much_player	test/test_game.py	/^def test_register_players_too_much_player(game):$/;"	f
+test_register_same_player_twice	test/test_game.py	/^def test_register_same_player_twice(game):$/;"	f
+test_resolve_text	test/test_monopoly_helper.py	/^def test_resolve_text():$/;"	f
+test_roll	test/test_game.py	/^def test_roll(game):$/;"	f
+test_roll_already_rolled	test/test_game.py	/^def test_roll_already_rolled(registered_game):$/;"	f
+test_roll_at_end_of_board	test/test_game.py	/^def test_roll_at_end_of_board(game):$/;"	f
+test_roll_command	monopoly/Game.py	/^    def test_roll_command(self, caller, args):$/;"	m	class:Game
+test_roll_dice_not_your_turn	test/test_game.py	/^def test_roll_dice_not_your_turn(game):$/;"	f
+test_roll_double	test/test_game.py	/^def test_roll_double(registered_game):$/;"	f
+test_salary_when_passing_start_cell	test/test_game.py	/^def test_salary_when_passing_start_cell(registered_game):$/;"	f
+test_select_cell	test/test_game.py	/^def test_select_cell(registered_game):$/;"	f
+test_select_cell_no_argument	test/test_game.py	/^def test_select_cell_no_argument(registered_game):$/;"	f
+test_send_private_message	test/test_game.py	/^def test_send_private_message(game):$/;"	f
+test_set_output_channel	test/test_game.py	/^def test_set_output_channel(game):$/;"	f
+test_start_game	test/test_game.py	/^def test_start_game(game):$/;"	f
+test_start_game_with_no_player	test/test_game.py	/^def test_start_game_with_no_player(game):$/;"	f
+test_upgrade_estate	test/test_game.py	/^def test_upgrade_estate(registered_game_with_owners):$/;"	f
+test_upgrade_estate_already_max_level	test/test_game.py	/^def test_upgrade_estate_already_max_level(registered_game_with_owners):$/;"	f
+test_upgrade_estate_no_more_hotel	test/test_game.py	/^def test_upgrade_estate_no_more_hotel(registered_game_with_owners):$/;"	f
+test_upgrade_estate_no_more_house	test/test_game.py	/^def test_upgrade_estate_no_more_house(registered_game_with_owners):$/;"	f
+test_upgrade_estate_not_enough_money	test/test_game.py	/^def test_upgrade_estate_not_enough_money(registered_game_with_owners):$/;"	f
+test_upgrade_estate_not_estate_cell	test/test_game.py	/^def test_upgrade_estate_not_estate_cell(registered_game_with_owners):$/;"	f
+test_upgrade_estate_not_own_every_land	test/test_game.py	/^def test_upgrade_estate_not_own_every_land(registered_game):$/;"	f
+test_upgrade_estate_with_gap	test/test_game.py	/^def test_upgrade_estate_with_gap(registered_game_with_owners):$/;"	f
+upgrade_estate_command	monopoly/Game.py	/^    def upgrade_estate_command(self, caller, args):$/;"	m	class:Game
+validate_roll	monopoly/Game.py	/^    def validate_roll(self, roll_score):$/;"	m	class:Game
+with_args	monopoly/Command.py	/^    def with_args(self, args):$/;"	m	class:Command

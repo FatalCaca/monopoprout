@@ -8,6 +8,7 @@ class Player:
         self.selected_cell = None
         self.can_roll = True
         self.turns_to_wait_in_jail = 0
+        self.curent_cell = None
 
     def __str__(self):
         return self.nickname

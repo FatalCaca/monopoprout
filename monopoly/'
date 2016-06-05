@@ -1,0 +1,14 @@
+__author__ = 'simon.ballu@gmail.com'
+
+
+import threading
+from Monopoly.Game import Gam
+
+
+game = Game()
+game.output_channel = print
+game.private_output_channel = print
+
+while command != "caca":
+    command = input()
+    game.send_command(command)
