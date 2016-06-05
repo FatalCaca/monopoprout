@@ -1,3 +1,9 @@
+__author__ = "simon.ballu@gmail.com"
+
+
+from monopoly.Text import Text
+
+
 class Player:
     def __init__(self, nickname):
         self.position = 1
@@ -12,3 +18,10 @@ class Player:
 
     def __str__(self):
         return self.nickname
+
+    def get_full_description(self):
+        return Text.PLAYER_FULL_DESCRIPTION % (
+            self.nickname,
+            self.position,
+            self.money
+        )

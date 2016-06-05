@@ -88,18 +88,30 @@ class Game:
         if not player:
             return
 
-        cell_index = player.position
+        cell_index = player.position - 1
 
-        if len(args):
-            cell_index = int(args[0])
-
-        cell_index -= 1
+        if not len(args):
+            try:
+                self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index].get_full_description())
+            except KeyError:
+                print("Error: Wrong cell index for info request")
+            return
 
         try:
-            self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index].get_full_description())
-        except KeyError:
-            print("Error: Wrong cell index for info request")
+            cell_index = int(args[0]) - 1
 
+            try:
+                self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index].get_full_description())
+            except KeyError:
+                print("Error: Wrong cell index for info request")
+
+        except ValueError:
+            info_player = self.get_player_from_nickname(args[0])
+
+            if not info_player:
+                self.send_private_message(player, Text.PLAYER_UNKNOWN)
+            else:
+                self.send_private_message(player, info_player.get_full_description())
 
     def end_turn_command(self, caller, args):
         player = self.get_player_from_nickname(caller)
