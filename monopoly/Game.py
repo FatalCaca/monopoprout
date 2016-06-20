@@ -53,24 +53,34 @@ class Game:
             self.game_over_callback = self.dummy_game_over
 
     def send_command(self, command_text):
+        caller = self.extract_command_nickname(command_text)
+        args = self.extract_command_args(command_text)
+        command = self.extract_command_name(command_text)
+
+        self._handle_command(command, caller, args)
+
+    def call_command(self, command, caller):
+        args = self.extract_command_args(command)
+        command = self.extract_command_name(command)
+
+        self._handle_command(command, caller, args)
+
+    def _handle_command(self, command, caller, args):
         while self.busy:
             print("caca")
             pass
 
         self.busy = True
 
-        caller = self.extract_command_nickname(command_text)
-        args = self.extract_command_args(command_text)
-        command_name = self.extract_command_name(command_text)
-
-        if caller == None or command_name == None:
+        if not caller or not command:
             self.busy = False
+            print('Game error : empty command or without caller')
             return
 
         try:
-            self.command_bindings[command_name.lower()](caller, args)
+            self.command_bindings[command.lower()](caller, args)
         except KeyError:
-            print("Error: command binding missing for [" + command_name + "]")
+            print("Error: command binding missing for [" + command + "]")
 
         self.busy = False
 
@@ -279,12 +289,13 @@ class Game:
 
     def extract_command_args(self, command):
         if len(command.split(": ")) < 2:
-            return []
+            return [arg for arg in command.split(" ")[1:] if arg != '']
 
         return [arg for arg in command.split(": ")[1].split(" ")[1:] if arg != '']
 
     def extract_command_name(self, command):
         if len(command.split(": ")) < 2:
+            return command.split(" ")[0]
             return None
 
         return command.split(": ")[1].split(" ")[0]

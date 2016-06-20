@@ -37,10 +37,10 @@ class IrcConnector:
         self.send_string('USER %s %s %s :%s Script\r\n' % (self.nickname, self.nickname, self.nickname, self.nickname))
 
     def send_message(self, message):
-        self.send_string('PRIVMSG %s :%s' % (self.channel, message))
+        self.send_string('PRIVMSG %s :%s\r\n' % (self.channel, message))
 
-    def send_private_message(self, message, target):
-        self.send_string('PRIVMSG %s :%s' % (target, message))
+    def send_private_message(self, target, message):
+        self.send_string('PRIVMSG %s :%s\r\n' % (target, message))
 
     def handle_ping(self, param):
         self.send_string('PONG :%s\r\n' % param)
@@ -54,7 +54,7 @@ class IrcConnector:
             message_meta = message_elements[1]
 
         if len(message_elements) >= 3:
-            message_content = message_elements[2]
+            message_content = message_elements[2].split('\r')[0]
 
         if 'welcome' in message_content.lower():
             self.on_connection_accepted()
@@ -77,7 +77,7 @@ class IrcConnector:
             if operation == 'PRIVMSG':
                 if target == self.channel:
                     try:
-                        self.on_message_received(sender, message_content)
+                        self.on_message_received(message_content, sender)
                     except TypeError as e:
                         print(e)
                         print('Error: on_message_received not set')

@@ -3,6 +3,7 @@ __author__ = "simon.ballu@gmail.com"
 
 import sys
 from connector.IrcConnector import IrcConnector
+from monopoly.Game import Game
 
 
 irc_connector = None
@@ -37,16 +38,10 @@ if '-s' in sys.argv:
         print("Error with server (-s) argument")
 
 
+game = Game()
 irc_connector = IrcConnector(server, port, channel, nickname)
-
-def repeat_message(sender, message):
-    global irc_connector
-    irc_connector.send_message(message)
-
-def repeat_private_message(sender, message):
-    global irc_connector
-    irc_connector.send_private_message(message, sender)
-
-irc_connector.on_message_received = repeat_message
-irc_connector.on_private_message_received = repeat_private_message
+irc_connector.on_message_received = game.call_command
+irc_connector.on_private_message_received = game.call_command
+game.output_channel = irc_connector.send_message
+game.private_output_channel = irc_connector.send_private_message
 irc_connector.connect()

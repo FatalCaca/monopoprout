@@ -43,8 +43,8 @@ GameState	monopoly/Game.py	/^class GameState:$/;"	c
 GoToJailCell	monopoly/Cell.py	/^class GoToJailCell(Cell):$/;"	c
 IS_NOT_ESTATE_CELL	monopoly/Text.py	/^    IS_NOT_ESTATE_CELL = "Ce n'est pas une case achetable lole"$/;"	v	class:Text
 IT_IS_SOMEONES_TURN	monopoly/Text.py	/^    IT_IS_SOMEONES_TURN = "C'est a %s de jouer"$/;"	v	class:Text
-IrcConnector	IrcConnector.py	/^class IrcConnector:$/;"	c
-IrcConnector	monopoly/IrcConnector.py	/^class IrcConnector():$/;"	c
+IrcConnector	connector/IrcConnector.py	/^class IrcConnector:$/;"	c
+IrcListener	connector/IrcConnector.py	/^class IrcListener(threading.Thread):$/;"	c
 IrcStub	monopoly/IrcStub.py	/^class IrcStub():$/;"	c
 JAIL_CELL	monopoly/Text.py	/^    JAIL_CELL = "Case prison"$/;"	v	class:Text
 JAIL_TOLL	monopoly/Game.py	/^    JAIL_TOLL = 200$/;"	v	class:Game
@@ -76,6 +76,7 @@ PLAYER_GOES_BANKRUPT	monopoly/Text.py	/^    PLAYER_GOES_BANKRUPT = "%s n'a plus 
 PLAYER_SCORED_A_DOUBLE	monopoly/Text.py	/^    PLAYER_SCORED_A_DOUBLE = "%s a fait un double ! Il peut relancer les des !"$/;"	v	class:Text
 PLAYER_UNKNOWN	monopoly/Text.py	/^    PLAYER_UNKNOWN = "Joueur inconnu maggle"$/;"	v	class:Text
 PLAYER_UPGRADES_ESTATE	monopoly/Text.py	/^    PLAYER_UPGRADES_ESTATE = "%s upgrade %s au niveau %i !"$/;"	v	class:Text
+PRIVMSG_SEPARATOR	connector/IrcConnector.py	/^    PRIVMSG_SEPARATOR = 'PRIVMSG #%s :'$/;"	v	class:IrcConnector
 Player	monopoly/Player.py	/^class Player:$/;"	c
 RECEIVES_MONEY	monopoly/Text.py	/^    RECEIVES_MONEY = "%s recoit %i (%s). Reste %i"$/;"	v	class:Text
 RENT_AT	monopoly/Text.py	/^    RENT_AT = '[Loyer a %i]'$/;"	v	class:Text
@@ -93,15 +94,14 @@ TOO_MUCH_PLAYER_REGISTERED	monopoly/Text.py	/^    TOO_MUCH_PLAYER_REGISTERED = "
 Text	monopoly/Text.py	/^class Text:$/;"	c
 UPGRADED_ESTATE	monopoly/Text.py	/^    UPGRADED_ESTATE = "%s upgrade %s !"$/;"	v	class:Text
 YOU_HAVE_THAT_MUCH_MONEY	monopoly/Text.py	/^    YOU_HAVE_THAT_MUCH_MONEY = "Vous avez %i"$/;"	v	class:Text
-__author__	IrcConnector.py	/^__author__ = "simon.ballu@gmail.com"$/;"	v
 __author__	MonopolyTester.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
 __author__	bot.py	/^__author__  = 'Simon'$/;"	v
+__author__	connector/IrcConnector.py	/^__author__ = "simon.ballu@gmail.com"$/;"	v
 __author__	monopoly/Board.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
 __author__	monopoly/Cell.py	/^__author__ = 'Simon'$/;"	v
 __author__	monopoly/Command.py	/^__author__ = "Simon"$/;"	v
 __author__	monopoly/Estate.py	/^__author__ = 'Simon'$/;"	v
 __author__	monopoly/Game.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
-__author__	monopoly/IrcConnector.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
 __author__	monopoly/IrcStub.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
 __author__	monopoly/LuckCard.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
 __author__	monopoly/Player.py	/^__author__ = "simon.ballu@gmail.com"$/;"	v
@@ -115,10 +115,10 @@ __author__	test/test_estate.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
 __author__	test/test_game.py	/^__author__ = "Simon"$/;"	v
 __author__	test/test_helper.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
 __author__	test/test_monopoly_helper.py	/^__author__ = 'simon.ballu@gmail.com'$/;"	v
-__constructor__	monopoly/IrcConnector.py	/^    def __constructor__(self):$/;"	m	class:IrcConnector	file:
 __constructor__	monopoly/IrcStub.py	/^    def __constructor__(self):$/;"	m	class:IrcStub	file:
 __getitem__	monopoly/Board.py	/^    def __getitem__(self, position):$/;"	m	class:Board	file:
-__init__	IrcConnector.py	/^    def __init__(self, server, port=6667, channel='', nickname='branlix'):$/;"	m	class:IrcConnector
+__init__	connector/IrcConnector.py	/^    def __init__(self, irc_socket, irc_connector):$/;"	m	class:IrcListener
+__init__	connector/IrcConnector.py	/^    def __init__(self, server, port=6667, channel='', nickname='branlix'):$/;"	m	class:IrcConnector
 __init__	monopoly/Board.py	/^    def __init__(self):$/;"	m	class:Board
 __init__	monopoly/Cell.py	/^    def __init__(self, estate):$/;"	m	class:EstateCell
 __init__	monopoly/Cell.py	/^    def __init__(self, text, money_amount):$/;"	m	class:MoneyCell
@@ -158,8 +158,7 @@ coincoin_private	MonopolyTester.py	/^def coincoin_private(target, message):$/;"	
 command	MonopolyTester.py	/^    command = input()$/;"	v
 command	MonopolyTester.py	/^command = ""$/;"	v
 commands	monopoly/Command.py	/^commands = {$/;"	v
-connect	IrcConnector.py	/^    def connect(self):$/;"	m	class:IrcConnector
-connect	monopoly/IrcConnector.py	/^    def connect(self, server, port, nickname):$/;"	m	class:IrcConnector
+connect	connector/IrcConnector.py	/^    def connect(self):$/;"	m	class:IrcConnector
 constructor_factory	monopoly/Command.py	/^def constructor_factory(command_string):$/;"	f
 draw_community_chest_card	monopoly/Board.py	/^    def draw_community_chest_card(self):$/;"	m	class:Board
 draw_luck_card	monopoly/Board.py	/^    def draw_luck_card(self):$/;"	m	class:Board
@@ -172,6 +171,7 @@ extract_command_nickname	monopoly/Game.py	/^    def extract_command_nickname(sel
 forward_player	monopoly/Game.py	/^    def forward_player(self, player, amount):$/;"	m	class:Game
 game	MonopolyTester.py	/^game = Game()$/;"	v
 game	monopoly/irc_monopoly.py	/^game = Game()$/;"	v
+game	start_irc.py	/^game = Game()$/;"	v
 game	test/test_game.py	/^def game():$/;"	f
 get_cell_index	monopoly/Board.py	/^    def get_cell_index(self, cell):$/;"	m	class:Board
 get_current_cell	monopoly/Game.py	/^    def get_current_cell(self):$/;"	m	class:Game
@@ -192,16 +192,17 @@ get_roll_score_from_message	test/test_game.py	/^get_roll_score_from_message = te
 get_roll_score_from_message	test/test_helper.py	/^def get_roll_score_from_message(message):$/;"	f
 get_selection_infos	monopoly/Cell.py	/^    def get_selection_infos(self):$/;"	m	class:Cell
 give_money_to_player	monopoly/Game.py	/^    def give_money_to_player(self, player, amount, reason):$/;"	m	class:Game
+handle_message	connector/IrcConnector.py	/^    def handle_message(self, message):$/;"	m	class:IrcConnector
+handle_ping	connector/IrcConnector.py	/^    def handle_ping(self, param):$/;"	m	class:IrcConnector
 hello	bot.py	/^def hello(new_nick):$/;"	f
-hello	monopoly/IrcConnector.py	/^def hello(new_nick):$/;"	f
 hello_said	bot.py	/^hello_said = False$/;"	v
 info_command	monopoly/Game.py	/^    def info_command(self, caller, args):$/;"	m	class:Game
 input_channel	monopoly/IrcStub.py	/^    def input_channel(self, emmitter, message):$/;"	m	class:IrcStub
 irc	monopoly/irc_monopoly.py	/^irc = IrcStub()$/;"	v
-irc_connector	start_irc.py	/^irc_connector = IrcConnector(server, port, nickname, channel)$/;"	v
+irc_connector	start_irc.py	/^irc_connector = IrcConnector(server, port, channel, nickname)$/;"	v
+irc_connector	start_irc.py	/^irc_connector = None$/;"	v
 irc_socket	bot.py	/^irc_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)$/;"	v
 jail_game	test/test_game.py	/^def jail_game(registered_game_with_owners):$/;"	f
-join_channel	monopoly/IrcConnector.py	/^    def join_channel(self, channel_name):$/;"	m	class:IrcConnector
 message_received	test/test_game.py	/^message_received = ''$/;"	v
 message_received_history	test/test_game.py	/^message_received_history = []$/;"	v
 mock_output_channel	test/test_game.py	/^def mock_output_channel(message):$/;"	f
@@ -213,11 +214,11 @@ nickname	monopoly/irc_monopoly.py	/^nickname = "monopoprout"$/;"	v
 nickname	start_irc.py	/^        nickname = sys.argv[sys.argv.index('-n') + 1]$/;"	v
 nickname	start_irc.py	/^nickname = 'Monopoprout'$/;"	v
 noms	bot.py	/^noms = [$/;"	v
+on_connection_accepted	connector/IrcConnector.py	/^    def on_connection_accepted(self):$/;"	m	class:IrcConnector
 output_message	monopoly/Game.py	/^    def output_message(self, message):$/;"	m	class:Game
 pay_for_jail_command	monopoly/Game.py	/^    def pay_for_jail_command(self, caller, args):$/;"	m	class:Game
 pick_effect	monopoly/LuckCard.py	/^    def pick_effect(self, game, player):$/;"	m	class:LuckCard
 ping	bot.py	/^def ping():$/;"	f
-ping	monopoly/IrcConnector.py	/^def ping():$/;"	f
 player_gives_money_to_player	monopoly/Game.py	/^    def player_gives_money_to_player(self, player_from, amount, player_to, reason):$/;"	m	class:Game
 ponctuations	bot.py	/^ponctuations = ['.',$/;"	v
 port	monopoly/irc_monopoly.py	/^port = 7777$/;"	v
@@ -227,7 +228,6 @@ pouet	bot.py	/^pouet = 'JOIN ' + channel + '\\r\\n'$/;"	v
 pouet	bot.py	/^pouet = 'NICK ' + nickname + '\\r\\n'$/;"	v
 pouet	bot.py	/^pouet = 'USER ' + nickname + ' ' + nickname + ' ' + nickname + ' :' + nickname + ' Script\\r\\n'$/;"	v
 pp	bot.py	/^pp = None$/;"	v
-pp	monopoly/IrcConnector.py	/^pp = None$/;"	v
 private_message_received	test/test_game.py	/^private_message_received = ''$/;"	v
 private_message_received_history	test/test_game.py	/^private_message_received_history = []$/;"	v
 probabilite_adverbe	bot.py	/^probabilite_adverbe = 50$/;"	v
@@ -236,26 +236,23 @@ registered_game	test/test_game.py	/^def registered_game(game):$/;"	f
 registered_game_with_owners	test/test_game.py	/^def registered_game_with_owners(registered_game):$/;"	f
 resolve_text	monopoly/helper.py	/^def resolve_text(text, *args):$/;"	f
 roll_command	monopoly/Game.py	/^    def roll_command(self, caller, args):$/;"	m	class:Game
+run	connector/IrcConnector.py	/^    def run(self):$/;"	m	class:IrcListener
 select_cell_command	monopoly/Game.py	/^    def select_cell_command(self, caller, args):$/;"	m	class:Game
 send	monopoly/Command.py	/^    def send(self, game):$/;"	m	class:Command
 send_command	monopoly/Game.py	/^    def send_command(self, command_text):$/;"	m	class:Game
-send_message	monopoly/IrcConnector.py	/^    def send_message(self, message):$/;"	m	class:IrcConnector
+send_message	connector/IrcConnector.py	/^    def send_message(self, message):$/;"	m	class:IrcConnector
 send_message	monopoly/IrcStub.py	/^    def send_message(self):$/;"	m	class:IrcStub
 send_msg	bot.py	/^def send_msg(chan, msg):$/;"	f
-send_msg	monopoly/IrcConnector.py	/^def send_msg(chan, msg):$/;"	f
+send_private_message	connector/IrcConnector.py	/^    def send_private_message(self, message, target):$/;"	m	class:IrcConnector
 send_private_message	monopoly/Game.py	/^    def send_private_message(self, player, message):$/;"	m	class:Game
-send_private_message	monopoly/IrcConnector.py	/^    def send_private_message(self, target, message):$/;"	m	class:IrcConnector
 send_private_message	monopoly/IrcStub.py	/^    def send_private_message(self, target, message):$/;"	m	class:IrcStub
 send_simple_message	bot.py	/^def send_simple_message(msg):$/;"	f
-send_simple_message	monopoly/IrcConnector.py	/^def send_simple_message(msg):$/;"	f
-send_string	IrcConnector.py	/^    def send_string(self, message):$/;"	m	class:IrcConnector
+send_string	connector/IrcConnector.py	/^    def send_string(self, message):$/;"	m	class:IrcConnector
 server	monopoly/irc_monopoly.py	/^server = "127.0.0.1"$/;"	v
 server	start_irc.py	/^        server = sys.argv[sys.argv.index('-s') + 1]$/;"	v
 server	start_irc.py	/^server = 'kdvr.fr'$/;"	v
-start	IrcConnector.py	/^    def start(self):$/;"	m	class:IrcConnector
 start_game_command	monopoly/Game.py	/^    def start_game_command(self, caller, args):$/;"	m	class:Game
 t	bot.py	/^t = None$/;"	v
-t	monopoly/IrcConnector.py	/^t = None$/;"	v
 tell_player_he_doesnt_have_enough_money	monopoly/Game.py	/^    def tell_player_he_doesnt_have_enough_money(self, player, required_amount):$/;"	m	class:Game
 test_arrival_at_owned_estate	test/test_game.py	/^def test_arrival_at_owned_estate(registered_game):$/;"	f
 test_bankrupt	test/test_game.py	/^def test_bankrupt(registered_game_with_owners):$/;"	f
