@@ -192,13 +192,15 @@ def test_roll(game):
         assert message_received_history[-2].startswith(Text.ROLL_RESULT.split("%i")[0] % player.nickname)
         roll_score = get_roll_score_from_message(message_received_history[-2])
         new_expected_position = origin_position + roll_score
-        assert message_received_history[-1] == Text.NEW_POSITION % (player.nickname, new_expected_position)
+        assert player.nickname in message_received_history[-1]
+        assert repr(new_expected_position) in message_received_history[-1]
 
     elif len(message_received_history) == 3:
         assert message_received_history[-3].startswith(Text.ROLL_RESULT.split("%i")[0] % player.nickname)
         roll_score = get_roll_score_from_message(message_received_history[-3])
         new_expected_position = origin_position + roll_score
-        assert message_received_history[-1] == Text.NEW_POSITION % (player.nickname, new_expected_position)
+        assert player.nickname in message_received_history[-1]
+        assert repr(new_expected_position) in message_received_history[-1]
 
 def test_roll_at_end_of_board(game):
     test_register_players(game)
@@ -585,7 +587,8 @@ def test_roll_double(registered_game):
     roll_score = get_roll_score_from_message(message_received_history[-3])
     new_expected_position = origin_position + roll_score
 
-    assert Text.NEW_POSITION % (player.nickname, new_expected_position) in message_received_history
+    assert any(repr(new_expected_position) in m for m in message_received_history)
+    assert any(player.nickname in m for m in message_received_history)
     assert Text.PLAYER_SCORED_A_DOUBLE % (player.nickname) in message_received_history
 
 def test_roll_already_rolled(registered_game):
@@ -607,7 +610,7 @@ def test_get_out_of_jail_by_dice(registered_game_with_owners):
 
     Command.TEST_ROLL().as_caller(player).with_args([2, 2]).send(game)
 
-    assert Text.NEW_POSITION % (player.nickname, player.position) in message_received_history
+    assert any(player.nickname in m for m in message_received_history)
     assert Text.PLAYER_SCORED_A_DOUBLE % (player.nickname) in message_received_history
     assert Text.GOES_OUT_OF_JAIL_WITH_DOUBLE % str(player) in message_received_history
     assert game.playing_player.can_roll

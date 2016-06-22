@@ -98,20 +98,20 @@ class Game:
         if not player:
             return
 
-        cell_index = player.position - 1
+        cell_index = player.position
 
         if not len(args):
             try:
-                self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index].get_full_description())
+                self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index - 1].get_full_description())
             except KeyError:
                 print("Error: Wrong cell index for info request")
             return
 
         try:
-            cell_index = int(args[0]) - 1
+            cell_index = int(args[0])
 
             try:
-                self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index].get_full_description())
+                self.send_private_message(player, (Text.THE_CELL % cell_index) + " " + self.board.cells[cell_index - 1].get_full_description())
             except KeyError:
                 print("Error: Wrong cell index for info request")
 
@@ -353,7 +353,7 @@ class Game:
             if self.playing_player.position > len(self.board.cells):
                 self.playing_player.position -= len(self.board.cells)
 
-            self.output_message(Text.NEW_POSITION % (self.playing_player.nickname, self.playing_player.position))
+            self.arrival_at_cell(self.playing_player)
 
         else:
             self.playing_player.turns_to_wait_in_jail -= 1
@@ -453,7 +453,7 @@ class Game:
     def arrival_at_cell(self, player):
         cell = self.get_player_cell(player)
 
-        self.output_message(Text.ARRIVAL_AT_CELL % (str(player), player.position, str(cell)))
+        self.output_message(Text.ARRIVAL_AT_CELL % (str(player), player.position, cell.get_full_description()))
 
         if isinstance(cell, Cell.FreeParkingCell):
             if self.board.bank_money == 0:

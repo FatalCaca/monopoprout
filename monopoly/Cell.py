@@ -68,7 +68,7 @@ class EstateCell(Cell):
                  Text.AT_LEVEL % self.estate.upgrade_level]
 
         if self.estate.owner:
-            infos.append(self.estate.owner)
+            infos.append(str(self.estate.owner))
 
         return ' '.join(infos)
 

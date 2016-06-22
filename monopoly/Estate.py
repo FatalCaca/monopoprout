@@ -34,6 +34,8 @@ class StationEstate:
         self.sell_price = 200
         self.mortgage_price = 100
         self.rents = [25, 50, 100, 200]
+        self.city = ''
+        self.upgrade_level = 1
 
 
 class DiceEstate:
@@ -43,6 +45,7 @@ class DiceEstate:
         self.sell_price = 150
         self.mortgage_price = 75
         self.rents = [4, 10]
+        self.city = ''
 
 
 class EstateFactory:

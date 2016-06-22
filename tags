@@ -140,6 +140,7 @@ __str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:LuckCell	file:
 __str__	monopoly/Cell.py	/^    def __str__(self):$/;"	m	class:MoneyCell	file:
 __str__	monopoly/Estate.py	/^    def __str__(self):$/;"	m	class:Estate	file:
 __str__	monopoly/Player.py	/^    def __str__(self):$/;"	m	class:Player	file:
+_handle_command	monopoly/Game.py	/^    def _handle_command(self, command, caller, args):$/;"	m	class:Game
 _renew_community_chest_deck	monopoly/Board.py	/^    def _renew_community_chest_deck(self):$/;"	m	class:Board
 _renew_luck_card_deck	monopoly/Board.py	/^    def _renew_luck_card_deck(self):$/;"	m	class:Board
 adverbes	bot.py	/^adverbes = ['vachement',$/;"	v
@@ -148,6 +149,7 @@ as_caller	monopoly/Command.py	/^    def as_caller(self, caller):$/;"	m	class:Com
 ask_board_for_index	monopoly/Cell.py	/^    ask_board_for_index = None$/;"	v	class:Cell
 board	test/test_board.py	/^def board():$/;"	f
 buy_estate_command	monopoly/Game.py	/^    def buy_estate_command(self, caller, args):$/;"	m	class:Game
+call_command	monopoly/Game.py	/^    def call_command(self, command, caller):$/;"	m	class:Game
 channel	bot.py	/^channel = "#monosourcil"$/;"	v
 channel	start_irc.py	/^        channel = sys.argv[sys.argv.index('-c') + 1]$/;"	v
 channel	start_irc.py	/^channel = '#monosourcil'$/;"	v
@@ -243,7 +245,7 @@ send_command	monopoly/Game.py	/^    def send_command(self, command_text):$/;"	m	
 send_message	connector/IrcConnector.py	/^    def send_message(self, message):$/;"	m	class:IrcConnector
 send_message	monopoly/IrcStub.py	/^    def send_message(self):$/;"	m	class:IrcStub
 send_msg	bot.py	/^def send_msg(chan, msg):$/;"	f
-send_private_message	connector/IrcConnector.py	/^    def send_private_message(self, message, target):$/;"	m	class:IrcConnector
+send_private_message	connector/IrcConnector.py	/^    def send_private_message(self, target, message):$/;"	m	class:IrcConnector
 send_private_message	monopoly/Game.py	/^    def send_private_message(self, player, message):$/;"	m	class:Game
 send_private_message	monopoly/IrcStub.py	/^    def send_private_message(self, target, message):$/;"	m	class:IrcStub
 send_simple_message	bot.py	/^def send_simple_message(msg):$/;"	f
