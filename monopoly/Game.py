@@ -4,6 +4,7 @@ __author__ = 'simon.ballu@gmail.com'
 from monopoly.Text import Text
 from monopoly.Player import Player
 from monopoly.Board import Board
+from monopoly.Cell import EstateCell
 import monopoly.Cell as Cell
 
 import random
@@ -38,6 +39,7 @@ class Game:
                          "endturn": self.end_turn_command,
                          "money": self.money_command,
                          "info": self.info_command,
+                         "estate": self.estate_command,
                          }
         self.board = Board()
         self.players = []
@@ -51,6 +53,23 @@ class Game:
             self.game_over_callback = game_over_callback
         else:
             self.game_over_callback = self.dummy_game_over
+
+    def estate_command(self, caller, args):
+        player = self.get_player_from_nickname(caller)
+        owned_estates = [c.estate for c in self.board.cells
+                         if isinstance(c, EstateCell)
+                         and c.estate.owner == player]
+
+        self.send_private_message(player, Text.YOU_HAVE_THAT_MUCH_MONEY % player.money)
+
+        if not owned_estates:
+            self.send_private_message(player, Text.YOU_OWN_NOTHING)
+            return
+
+        self.send_private_message(player, Text.YOU_OWN_THOSE_THINGS)
+
+        for estate in owned_estates:
+            self.send_private_message(player, "   " + estate.get_full_description())
 
     def send_command(self, command_text):
         caller = self.extract_command_nickname(command_text)

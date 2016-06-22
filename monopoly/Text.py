@@ -64,3 +64,5 @@ class Text:
     THE_CELL = "[Case %i]"
     PLAYER_UNKNOWN = "Joueur inconnu maggle"
     PLAYER_FULL_DESCRIPTION = "%s est a la case %i et a %i"
+    YOU_OWN_NOTHING = "Aucune proriete pour le moment :("
+    YOU_OWN_THOSE_THINGS = "Vous possedez tout ca :"

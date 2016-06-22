@@ -27,7 +27,7 @@ class Estate:
     def get_name_and_level(self):
         return str(self) + '[' + repr(self.upgrade_level) + ']'
 
-class StationEstate:
+class StationEstate(Estate):
     def __init__(self, **kwds):
         self.name = ''
         self.owner = None
@@ -35,10 +35,11 @@ class StationEstate:
         self.mortgage_price = 100
         self.rents = [25, 50, 100, 200]
         self.city = ''
-        self.upgrade_level = 1
+        self.upgrade_level = 0
+        self.__dict__.update(kwds)
 
 
-class DiceEstate:
+class DiceEstate(Estate):
     def __init__(self, **kwds):
         self.name = ''
         self.owner = None
@@ -46,6 +47,8 @@ class DiceEstate:
         self.mortgage_price = 75
         self.rents = [4, 10]
         self.city = ''
+        self.upgrade_level = 0
+        self.__dict__.update(kwds)
 
 
 class EstateFactory:
